@@ -125,7 +125,7 @@ textarea.text-input{height:90px;resize:none;line-height:1.7;}
 .card-footer-row{display:flex;justify-content:space-between;align-items:flex-end;padding-top:4px;}
 .card-org{font-size:10px;color:var(--mid);line-height:1.6;}
 .card-qr-area{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
-.card-qr{width:44px;height:44px;border:1.5px dashed #C8A068;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;background:var(--warm);}
+.card-qr{width:70px;height:70px;border:1.5px solid #C8A068;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;background:white;padding:3px;}
 .card-qr-icon{font-size:15px;color:#C8A068;}
 .card-qr-lbl{font-size:8px;color:#C8A068;letter-spacing:.05em;}
 .card-date{font-size:9px;color:var(--mid);}
@@ -248,12 +248,12 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
         <button class="mood-btn" onclick="selectMood(this,'c')">💛 따뜻했어요</button>
         <button class="mood-btn" onclick="selectMood(this,'c')">🤔 생각해볼게요</button>
         <button class="mood-btn" onclick="selectMood(this,'c')">👏 응원해요</button>
-        <button class="mood-btn" onclick="selectMood(this,'c')">✨ 감동받았어요</button>
+        <button class="mood-btn" onclick="selectMood(this,'c')">🙋 참여하고 싶어요</button>
       </div>
     </div>
     <div>
-      <div class="field-label">한 줄 소감 <span class="field-opt">(선택)</span></div>
-      <textarea class="text-input" id="c-text" placeholder="자유롭게 써주세요." maxlength="100" oninput="updateChar('c-text','c-char',100)"></textarea>
+      <div class="field-label">배리어프리 영화에 바라는 점이 있다면? <span class="field-opt">(선택)</span></div>
+      <textarea class="text-input" id="c-text" placeholder="더 많은 곳에서 볼 수 있으면 좋겠어요, 친구한테 알려야겠어요 등 자유롭게!" maxlength="100" oninput="updateChar('c-text','c-char',100)"></textarea>
       <div class="char-count"><span id="c-char">0</span> / 100</div>
     </div>
   </div>
@@ -289,9 +289,8 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
       <div class="card-footer-row">
         <div class="card-org">종로장애인복지관<br>× 씨네큐브</div>
         <div class="card-qr-area">
-          <div class="card-qr">
-            <div class="card-qr-icon">▦</div>
-            <div class="card-qr-lbl">QR</div>
+          <div class="card-qr" style="padding:2px;background:white;">
+            <img src="data:image/png;base64,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" style="width:62px;height:62px;display:block;" alt="QR">
           </div>
           <div class="card-hint">영화 후 소감 남기기</div>
           <div class="card-date" id="card-date"></div>
@@ -305,8 +304,7 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
     </div>
   </div>
   <div class="card-actions">
-    <button class="btn btn-primary" onclick="shareCard()">카드 공유하기 📤</button>
-    <button class="btn btn-ghost" onclick="goFilmReview()">영화 보고 오셨나요? 후기 남기기</button>
+    <button class="btn btn-primary" onclick="goFilmReview()">영화 보고 오셨나요? 후기 남기기 🎞️</button>
     <button class="btn btn-ghost" onclick="goHome()">처음으로</button>
   </div>
 </div>
