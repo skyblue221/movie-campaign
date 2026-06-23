@@ -175,6 +175,56 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
 .modal-input:focus{border-color:var(--amber);}
 .modal-error{font-size:12px;color:var(--red);display:none;}
 .modal-error.show{display:block;}
+
+/* ── HANDWRITE ── */
+#screen-handwrite{background:var(--warm);}
+.hw-header{background:#3D2B1F;padding:24px 24px 18px;}
+.hw-header h2{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--cream);font-weight:700;line-height:1.5;word-break:keep-all;}
+.hw-header p{font-size:12.5px;color:#B09878;margin-top:6px;line-height:1.6;font-weight:300;word-break:keep-all;}
+.hw-body{flex:1;padding:18px 20px 20px;display:flex;flex-direction:column;gap:14px;}
+.hw-canvas-wrap{position:relative;border:1.5px solid var(--light-border);border-radius:12px;background:#FFFFFF;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.05);touch-action:none;}
+.hw-canvas-wrap canvas{display:block;width:100%;touch-action:none;}
+.hw-placeholder{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);text-align:center;color:#C8BCAA;font-size:13px;pointer-events:none;line-height:1.7;word-break:keep-all;}
+.hw-placeholder.hide{display:none;}
+.hw-tools{display:flex;align-items:center;gap:10px;}
+.hw-color{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;flex-shrink:0;padding:0;}
+.hw-color.active{border-color:var(--dark);}
+.hw-size-row{display:flex;align-items:center;gap:8px;flex:1;}
+.hw-size-row input[type=range]{flex:1;accent-color:var(--amber);}
+.hw-divider-v{width:1px;height:22px;background:var(--light-border);flex-shrink:0;}
+.hw-icon-btn{background:white;border:1.5px solid var(--light-border);border-radius:8px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0;color:var(--mid);}
+.hw-icon-btn:active{background:#F0E8DC;}
+.hw-name-row{display:flex;gap:8px;align-items:center;}
+.hw-name-row input{flex:1;}
+.hw-footer{padding:0 20px 32px;display:flex;flex-direction:column;gap:10px;}
+
+/* ── GALLERY ── */
+#screen-gallery{background:var(--warm);}
+.gal-header{background:var(--darker);padding:24px 24px 18px;}
+.gal-header h2{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--cream);font-weight:700;line-height:1.5;word-break:keep-all;}
+.gal-header p{font-size:12.5px;color:#8A7A68;margin-top:6px;line-height:1.6;font-weight:300;}
+.gal-count{display:inline-flex;align-items:center;gap:6px;background:rgba(232,184,75,.15);border:1px solid rgba(232,184,75,.3);border-radius:20px;padding:4px 12px;margin-top:12px;font-size:12px;color:var(--gold);font-weight:600;}
+.gal-body{flex:1;padding:18px 18px 24px;}
+.gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.gal-card{background:white;border:1.5px solid #EDE5D8;border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.05);}
+.gal-card img{width:100%;display:block;background:white;aspect-ratio:4/3;object-fit:contain;}
+.gal-card-foot{padding:8px 10px 10px;}
+.gal-card-name{font-size:11.5px;font-weight:700;color:var(--dark);}
+.gal-card-date{font-size:9.5px;color:var(--mid);margin-top:2px;}
+.gal-empty{text-align:center;padding:60px 20px;color:#9A8878;font-size:13px;line-height:1.8;word-break:keep-all;}
+.gal-fab{position:fixed;bottom:24px;right:calc(50% - 240px + 20px);width:54px;height:54px;border-radius:50%;background:var(--amber);color:white;border:none;font-size:24px;box-shadow:0 4px 14px rgba(200,134,10,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:50;}
+@media (max-width:480px){.gal-fab{right:20px;}}
+.gal-footer{padding:0 20px 28px;}
+
+/* ── HW VIEWER MODAL ── */
+.hw-view-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:998;padding:24px;}
+.hw-view-overlay.show{display:flex;}
+.hw-view-box{background:white;border-radius:14px;max-width:420px;width:100%;overflow:hidden;}
+.hw-view-box img{width:100%;display:block;background:white;}
+.hw-view-info{padding:14px 16px 18px;}
+.hw-view-name{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;color:var(--dark);}
+.hw-view-date{font-size:11px;color:var(--mid);margin-top:3px;}
+.hw-view-close{margin-top:10px;}
 </style>
 </head>
 <body>
@@ -205,6 +255,7 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
     <div class="intro-btns">
       <button class="btn btn-primary" onclick="startQuiz()">캠페인 참여하기</button>
       <button class="btn btn-ghost" onclick="goFilmReview()">영화 보고 오셨나요? 🎬</button>
+      <button class="btn btn-ghost" onclick="openGallery('intro')">손글씨 갤러리 구경하기 🖼️</button>
       <button class="btn btn-ghost" onclick="showAdminModal()">담당자 입장</button>
     </div>
   </div>
@@ -253,6 +304,7 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
     </div>
     <div>
       <div class="field-label">배리어프리 영화에 바라는 점이 있다면? <span class="field-opt">(선택)</span></div>
+      <div style="font-size:11px;color:var(--amber);margin-bottom:6px;display:flex;align-items:center;gap:4px;">🎤 키보드의 마이크 버튼을 누르면 말로도 입력할 수 있어요</div>
       <textarea class="text-input" id="c-text" placeholder="더 많은 곳에서 볼 수 있으면 좋겠어요, 친구한테 알려야겠어요 등 자유롭게!" maxlength="100" oninput="updateChar('c-text','c-char',100)"></textarea>
       <div class="char-count"><span id="c-char">0</span> / 100</div>
     </div>
@@ -290,7 +342,7 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
         <div class="card-org">종로장애인복지관<br>× 씨네큐브</div>
         <div class="card-qr-area">
           <div class="card-qr" style="padding:2px;background:white;">
-            <img src="data:image/png;base64,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" style="width:62px;height:62px;display:block;" alt="QR">
+            <img src="data:image/png;base64,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" style="width:62px;height:62px;display:block;" alt="QR">
           </div>
           <div class="card-hint">영화 후 소감 남기기</div>
           <div class="card-date" id="card-date"></div>
@@ -304,7 +356,8 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
     </div>
   </div>
   <div class="card-actions">
-    <button class="btn btn-primary" onclick="goFilmReview()">영화 보고 오셨나요? 후기 남기기 🎞️</button>
+    <button class="btn btn-primary" onclick="goToHandwrite('card')">손글씨로 소감 남기기 ✍️</button>
+    <button class="btn btn-ghost" onclick="goFilmReview()">영화 보고 오셨나요? 후기 남기기 🎞️</button>
     <button class="btn btn-ghost" onclick="goHome()">처음으로</button>
   </div>
 </div>
@@ -333,6 +386,7 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
     </div>
     <div>
       <div class="field-label">영화 소감 <span class="field-opt">(선택)</span></div>
+      <div style="font-size:11px;color:var(--amber);margin-bottom:6px;display:flex;align-items:center;gap:4px;">🎤 키보드의 마이크 버튼을 누르면 말로도 입력할 수 있어요</div>
       <textarea class="text-input review-area" id="r-text" placeholder="배리어프리 영화를 보고 느낀 점을 자유롭게 써주세요." maxlength="150" oninput="updateChar('r-text','r-char',150)"></textarea>
       <div class="char-count"><span id="r-char">0</span> / 150</div>
     </div>
@@ -348,7 +402,10 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
   <div class="done-emoji">🎬</div>
   <h2 class="done-title">소감을 남겨주셔서<br>감사합니다!</h2>
   <p class="done-desc">여러분의 한 마디가<br>배리어프리 영화를 더 많은 곳에<br>알리는 힘이 됩니다.</p>
-  <div class="done-btn-wrap"><button class="btn btn-primary" onclick="goHome()">처음으로</button></div>
+  <div class="done-btn-wrap" style="display:flex;flex-direction:column;gap:10px;">
+    <button class="btn btn-primary" onclick="goToHandwrite('reviewdone')">손글씨로 한 줄 남기기 ✍️</button>
+    <button class="btn btn-ghost" onclick="goHome()">처음으로</button>
+  </div>
 </div>
 
 <!-- ── ADMIN ── -->
@@ -373,8 +430,73 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
     </div>
   </div>
 </div>
+<!-- ── HANDWRITE ── -->
+<div id="screen-handwrite" class="screen">
+  <div class="hw-header">
+    <button class="back-btn" onclick="goBack()" style="margin-bottom:10px;">← 돌아가기</button>
+    <h2>손글씨로 소감 남기기 ✍️</h2>
+    <p>손가락이나 펜으로 자유롭게 그리거나 써보세요. 모두가 함께 보는 갤러리에 남아요.</p>
+  </div>
+  <div class="hw-body">
+    <div class="hw-canvas-wrap" id="hw-canvas-wrap">
+      <canvas id="hw-canvas"></canvas>
+      <div class="hw-placeholder" id="hw-placeholder">여기에 손글씨나 그림을<br>자유롭게 남겨주세요</div>
+    </div>
+    <div class="hw-tools">
+      <button class="hw-color active" style="background:#2A1F14" data-color="#2A1F14" onclick="pickColor(this)"></button>
+      <button class="hw-color" style="background:#C8860A" data-color="#C8860A" onclick="pickColor(this)"></button>
+      <button class="hw-color" style="background:#27AE60" data-color="#27AE60" onclick="pickColor(this)"></button>
+      <button class="hw-color" style="background:#2D6CA8" data-color="#2D6CA8" onclick="pickColor(this)"></button>
+      <button class="hw-color" style="background:#C0392B" data-color="#C0392B" onclick="pickColor(this)"></button>
+      <div class="hw-divider-v"></div>
+      <button class="hw-icon-btn" onclick="undoStroke()" title="되돌리기">↩︎</button>
+      <button class="hw-icon-btn" onclick="clearCanvas()" title="전체 지우기">🗑</button>
+    </div>
+    <div class="hw-size-row">
+      <span style="font-size:11px;color:var(--mid);white-space:nowrap;">펜 굵기</span>
+      <input type="range" id="hw-size" min="2" max="14" value="4" oninput="setSize(this.value)">
+    </div>
+    <div class="hw-name-row">
+      <input class="text-input" id="hw-name" type="text" placeholder="이름 또는 닉네임 (선택)" maxlength="10">
+    </div>
+  </div>
+  <div class="hw-footer">
+    <button class="btn btn-primary" onclick="submitHandwrite()">갤러리에 남기기</button>
+    <button class="btn btn-ghost" onclick="goBack()">건너뛰기</button>
+  </div>
+</div>
+
+<!-- ── GALLERY ── -->
+<div id="screen-gallery" class="screen">
+  <div class="gal-header">
+    <button class="back-btn" onclick="goHome()" style="margin-bottom:10px;">← 처음으로</button>
+    <h2>모두의 손글씨 갤러리 🖼️</h2>
+    <p>관람객들이 직접 남긴 손글씨와 그림이에요.</p>
+    <div class="gal-count" id="gal-count">0개의 작품</div>
+  </div>
+  <div class="gal-body">
+    <div class="gal-grid" id="gal-grid"></div>
+    <div class="gal-empty" id="gal-empty" style="display:none;">아직 갤러리가 비어있어요.<br>첫 번째 작품을 남겨보세요!</div>
+  </div>
+  <div class="gal-footer">
+    <button class="btn btn-primary" onclick="goToHandwrite('gallery')">나도 손글씨 남기기 ✍️</button>
+  </div>
+  <button class="gal-fab" onclick="goToHandwrite('gallery')" title="손글씨 남기기" aria-label="손글씨 남기기">✍️</button>
+</div>
 
 </div><!-- .app -->
+
+<!-- ── HW VIEWER MODAL ── -->
+<div class="hw-view-overlay" id="hw-view-overlay" onclick="if(event.target===this)closeHwView()">
+  <div class="hw-view-box">
+    <img id="hw-view-img" src="" alt="손글씨 확대 보기">
+    <div class="hw-view-info">
+      <div class="hw-view-name" id="hw-view-name"></div>
+      <div class="hw-view-date" id="hw-view-date"></div>
+      <button class="btn btn-ghost hw-view-close" onclick="closeHwView()">닫기</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── ADMIN MODAL ── -->
 <div class="modal-overlay" id="admin-modal">
@@ -649,6 +771,201 @@ function goHome(){
 
 // 날짜 초기 표시
 document.getElementById('card-date').textContent=todayStr;
+
+/* ════════════════════════════════════
+   HANDWRITE CANVAS + GALLERY (storage)
+   ════════════════════════════════════ */
+let hwCanvas, hwCtx, hwDrawing=false, hwHasDrawn=false;
+let hwColor='#2A1F14', hwSize=4;
+let hwStrokes=[]; // [{points:[{x,y}], color, size}]
+let hwCurStroke=null;
+
+function initHwCanvas(){
+  hwCanvas=document.getElementById('hw-canvas');
+  hwCtx=hwCanvas.getContext('2d');
+  sizeHwCanvas();
+  window.addEventListener('resize', sizeHwCanvas);
+
+  hwCanvas.addEventListener('pointerdown', hwStart);
+  hwCanvas.addEventListener('pointermove', hwMove);
+  hwCanvas.addEventListener('pointerup', hwEnd);
+  hwCanvas.addEventListener('pointerleave', hwEnd);
+  hwCanvas.addEventListener('pointercancel', hwEnd);
+}
+
+function sizeHwCanvas(){
+  if(!hwCanvas)return;
+  const wrap=document.getElementById('hw-canvas-wrap');
+  const w=wrap.clientWidth;
+  const h=Math.round(w*0.72);
+  const ratio=window.devicePixelRatio||1;
+  hwCanvas.width=w*ratio;
+  hwCanvas.height=h*ratio;
+  hwCanvas.style.height=h+'px';
+  hwCtx.setTransform(ratio,0,0,ratio,0,0);
+  redrawHw();
+}
+
+function getHwPos(e){
+  const rect=hwCanvas.getBoundingClientRect();
+  return {x:e.clientX-rect.left, y:e.clientY-rect.top};
+}
+
+function hwStart(e){
+  e.preventDefault();
+  hwDrawing=true;
+  hwHasDrawn=true;
+  document.getElementById('hw-placeholder').classList.add('hide');
+  const p=getHwPos(e);
+  hwCurStroke={points:[p], color:hwColor, size:hwSize};
+  hwStrokes.push(hwCurStroke);
+}
+
+function hwMove(e){
+  if(!hwDrawing)return;
+  e.preventDefault();
+  const p=getHwPos(e);
+  hwCurStroke.points.push(p);
+  redrawHw();
+}
+
+function hwEnd(e){
+  hwDrawing=false;
+  hwCurStroke=null;
+}
+
+function redrawHw(){
+  if(!hwCtx)return;
+  const w=hwCanvas.width/(window.devicePixelRatio||1);
+  const h=hwCanvas.height/(window.devicePixelRatio||1);
+  hwCtx.clearRect(0,0,w,h);
+  hwStrokes.forEach(s=>{
+    if(s.points.length<1)return;
+    hwCtx.strokeStyle=s.color;
+    hwCtx.lineWidth=s.size;
+    hwCtx.lineCap='round';
+    hwCtx.lineJoin='round';
+    hwCtx.beginPath();
+    hwCtx.moveTo(s.points[0].x, s.points[0].y);
+    if(s.points.length===1){
+      hwCtx.lineTo(s.points[0].x+0.1, s.points[0].y+0.1);
+    } else {
+      for(let i=1;i<s.points.length;i++) hwCtx.lineTo(s.points[i].x, s.points[i].y);
+    }
+    hwCtx.stroke();
+  });
+}
+
+function pickColor(btn){
+  document.querySelectorAll('.hw-color').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  hwColor=btn.dataset.color;
+}
+
+function setSize(v){ hwSize=Number(v); }
+
+function undoStroke(){
+  hwStrokes.pop();
+  hwHasDrawn=hwStrokes.length>0;
+  if(!hwHasDrawn) document.getElementById('hw-placeholder').classList.remove('hide');
+  redrawHw();
+}
+
+function clearCanvas(){
+  hwStrokes=[];
+  hwHasDrawn=false;
+  document.getElementById('hw-placeholder').classList.remove('hide');
+  redrawHw();
+}
+
+function goToHandwrite(from){
+  prevScreen=from;
+  clearCanvas();
+  document.getElementById('hw-name').value='';
+  showScreen('handwrite');
+  setTimeout(()=>{ if(!hwCanvas) initHwCanvas(); else sizeHwCanvas(); },50);
+}
+
+async function submitHandwrite(){
+  if(!hwHasDrawn){
+    alert('아직 작성된 내용이 없어요. 펜으로 자유롭게 남겨주세요!');
+    return;
+  }
+  const name=document.getElementById('hw-name').value.trim()||'익명 참여자';
+  const dataUrl=hwCanvas.toDataURL('image/png');
+  const id='hw_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);
+  const entry={id,name,image:dataUrl,date:todayStr,ts:Date.now()};
+
+  try{
+    await window.storage.set(id, JSON.stringify(entry), true);
+    const idxRes=await window.storage.get('hw-index', true).catch(()=>null);
+    const idx=idxRes? JSON.parse(idxRes.value) : [];
+    idx.unshift(id);
+    await window.storage.set('hw-index', JSON.stringify(idx), true);
+  }catch(err){
+    console.error('저장 실패', err);
+    alert('저장 중 문제가 생겼어요. 다시 시도해주세요.');
+    return;
+  }
+
+  await openGallery('handwrite');
+}
+
+async function openGallery(from){
+  prevScreen=from||'intro';
+  showScreen('gallery');
+  await renderGallery();
+}
+
+async function renderGallery(){
+  const grid=document.getElementById('gal-grid');
+  const empty=document.getElementById('gal-empty');
+  const countEl=document.getElementById('gal-count');
+  grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px 0;color:#9A8878;font-size:13px;">불러오는 중...</div>';
+
+  let entries=[];
+  try{
+    const idxRes=await window.storage.get('hw-index', true).catch(()=>null);
+    const ids=idxRes? JSON.parse(idxRes.value) : [];
+    for(const id of ids){
+      try{
+        const res=await window.storage.get(id, true);
+        if(res) entries.push(JSON.parse(res.value));
+      }catch(e){ /* 개별 항목 누락은 건너뜀 */ }
+    }
+  }catch(err){
+    console.error('갤러리 로드 실패', err);
+  }
+
+  countEl.textContent=`${entries.length}개의 작품`;
+
+  if(entries.length===0){
+    grid.innerHTML='';
+    empty.style.display='block';
+    return;
+  }
+  empty.style.display='none';
+  grid.innerHTML=entries.map(e=>`
+    <div class="gal-card" onclick='openHwView(${JSON.stringify(e.image)}, ${JSON.stringify(e.name)}, ${JSON.stringify(e.date)})'>
+      <img src="${e.image}" alt="${e.name}님의 손글씨">
+      <div class="gal-card-foot">
+        <div class="gal-card-name">${e.name}</div>
+        <div class="gal-card-date">${e.date}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openHwView(img,name,date){
+  document.getElementById('hw-view-img').src=img;
+  document.getElementById('hw-view-name').textContent=name;
+  document.getElementById('hw-view-date').textContent=date;
+  document.getElementById('hw-view-overlay').classList.add('show');
+}
+function closeHwView(){
+  document.getElementById('hw-view-overlay').classList.remove('show');
+}
+
 </script>
 </body>
 </html>
