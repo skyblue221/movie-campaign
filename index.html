@@ -20,6 +20,31 @@ html,body{height:100%;background:var(--warm);}
 body{font-family:'Noto Sans KR',sans-serif;color:var(--dark);overscroll-behavior:none;}
 .app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;}
 
+/* 태블릿/큰 화면: 모바일 카드 형태를 화면 중앙에 띄우고 배경을 채워 비율이 깨지지 않도록 함 */
+@media (min-width:640px){
+  body{background:var(--darker);}
+  .app{
+    max-width:480px;
+    min-height:100vh;
+    box-shadow:0 0 60px rgba(0,0,0,.35);
+  }
+}
+@media (min-width:1024px){
+  body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+  }
+  .app{
+    min-height:min(900px, 92vh);
+    max-height:92vh;
+    overflow-y:auto;
+    border-radius:20px;
+    margin:0;
+  }
+}
+
 /* ── SCREEN ── */
 .screen{display:none;flex-direction:column;min-height:100vh;animation:fadeUp .35s ease;}
 .screen.active{display:flex;}
@@ -212,8 +237,7 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
 .gal-card-name{font-size:11.5px;font-weight:700;color:var(--dark);}
 .gal-card-date{font-size:9.5px;color:var(--mid);margin-top:2px;}
 .gal-empty{text-align:center;padding:60px 20px;color:#9A8878;font-size:13px;line-height:1.8;word-break:keep-all;}
-.gal-fab{position:fixed;bottom:24px;right:calc(50% - 240px + 20px);width:54px;height:54px;border-radius:50%;background:var(--amber);color:white;border:none;font-size:24px;box-shadow:0 4px 14px rgba(200,134,10,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:50;}
-@media (max-width:480px){.gal-fab{right:20px;}}
+.gal-fab{position:absolute;bottom:24px;right:20px;width:54px;height:54px;border-radius:50%;background:var(--amber);color:white;border:none;font-size:24px;box-shadow:0 4px 14px rgba(200,134,10,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:50;}
 .gal-footer{padding:0 20px 28px;}
 
 /* ── HW VIEWER MODAL ── */
@@ -225,6 +249,25 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
 .hw-view-name{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;color:var(--dark);}
 .hw-view-date{font-size:11px;color:var(--mid);margin-top:3px;}
 .hw-view-close{margin-top:10px;}
+
+/* ── MAKING (제작과정 카드뉴스) ── */
+#screen-making{background:var(--warm);}
+.making-header{background:var(--darker);padding:24px 24px 18px;}
+.making-header h2{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--cream);font-weight:700;line-height:1.5;word-break:keep-all;}
+.making-header p{font-size:12.5px;color:#8A7A68;margin-top:6px;line-height:1.6;font-weight:300;word-break:keep-all;}
+.making-body{flex:1;padding:22px 24px;display:flex;flex-direction:column;gap:16px;}
+.making-progress{display:flex;gap:6px;}
+.making-dot{flex:1;height:4px;border-radius:2px;background:#E0D8CC;}
+.making-dot.active{background:var(--amber);}
+.making-card{background:white;border:1.5px solid #EDE5D8;border-radius:14px;padding:26px 22px;display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06);min-height:280px;justify-content:center;}
+.making-step-num{font-size:11px;color:var(--amber);letter-spacing:.12em;font-weight:700;}
+.making-emoji{font-size:48px;}
+.making-title{font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700;color:var(--dark);word-break:keep-all;}
+.making-desc{font-size:13.5px;color:#5A4A38;line-height:1.75;word-break:keep-all;}
+.making-nav{display:flex;gap:10px;}
+.making-nav .btn{flex:1;}
+.making-footer{padding:0 24px 32px;}
+
 </style>
 </head>
 <body>
@@ -248,12 +291,13 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
       <p class="intro-desc" style="margin-top:14px;">배리어프리 영화가 무엇인지 퀴즈로 알아보고,<br>당신의 한 마디를 남겨보세요.</p>
     </div>
     <div class="intro-meta">
-      <div class="meta-item"><div class="meta-dot"></div>퀴즈 4문항</div>
-      <div class="meta-item"><div class="meta-dot"></div>약 3분 소요</div>
+      <div class="meta-item"><div class="meta-dot"></div>퀴즈 1문항</div>
+      <div class="meta-item"><div class="meta-dot"></div>약 1분 소요</div>
       <div class="meta-item"><div class="meta-dot"></div>참여 카드 발급</div>
     </div>
     <div class="intro-btns">
       <button class="btn btn-primary" onclick="startQuiz()">캠페인 참여하기</button>
+      <button class="btn btn-ghost" onclick="showScreen('making')">영화는 어떻게 만들어질까요? 🎞️</button>
       <button class="btn btn-ghost" onclick="goFilmReview()">영화 보고 오셨나요? 🎬</button>
       <button class="btn btn-ghost" onclick="openGallery('intro')">손글씨 갤러리 구경하기 🖼️</button>
       <button class="btn btn-ghost" onclick="showAdminModal()">담당자 입장</button>
@@ -484,6 +528,26 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
   <button class="gal-fab" onclick="goToHandwrite('gallery')" title="손글씨 남기기" aria-label="손글씨 남기기">✍️</button>
 </div>
 
+<!-- ── MAKING (제작과정 카드뉴스) ── -->
+<div id="screen-making" class="screen">
+  <div class="making-header">
+    <button class="back-btn" onclick="goHome()" style="margin-bottom:10px;">← 처음으로</button>
+    <h2>배리어프리 영화는 어떻게 만들어질까요? 🎞️</h2>
+    <p>한 편의 영화가 배리어프리 영화가 되기까지의 과정이에요.</p>
+  </div>
+  <div class="making-body">
+    <div class="making-progress" id="making-progress"></div>
+    <div class="making-card" id="making-card"></div>
+    <div class="making-nav">
+      <button class="btn btn-ghost" id="making-prev" onclick="makingPrev()">이전</button>
+      <button class="btn btn-primary" id="making-next" onclick="makingNext()">다음</button>
+    </div>
+  </div>
+  <div class="making-footer">
+    <button class="btn btn-ghost" onclick="goHome()">처음으로</button>
+  </div>
+</div>
+
 </div><!-- .app -->
 
 <!-- ── HW VIEWER MODAL ── -->
@@ -511,7 +575,7 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
 
 <script>
 const ADMIN_PW = '0517';
-const TOTAL_Q = 4;
+const TOTAL_Q = 1;
 const todayStr = new Date().toLocaleDateString('ko-KR');
 
 // ── QUIZ DATA ──
@@ -536,6 +600,15 @@ const ALL_Q = [
   {type:'mc',cat:'함께보는 영화',q:'배리어프리 영화 상영에서 가장 중요한 가치는?',opts:['최신 영화를 가장 빨리 상영하는 것','장애 유무와 관계없이 누구나 같은 공간에서 함께 즐기는 것','티켓 가격을 낮추는 것','영화관 규모를 키우는 것'],ans:1,fb:"배리어프리는 '장벽 없음'이라는 뜻이에요. 같은 공간에서 같은 감동을 나누는 것, 그게 배리어프리 상영이 추구하는 핵심 가치예요."},
   {type:'ox',cat:'OX 퀴즈',q:'배리어프리 영화의 화면해설·자막 작업은 전문 훈련이 필요하다.',ans:0,fb:"맞아요! 화면해설 작가는 시각 정보를 객관적으로 묘사하는 훈련을 받고, 성우도 별도 녹음 과정을 거쳐요. 하나의 영화에 많은 전문가의 노력이 담겨 있답니다."},
   {type:'mc',cat:'함께보는 영화',q:'배리어프리 영화를 보면 비장애인에게도 유용한 경우는?',opts:['전혀 도움이 되지 않는다','소리를 끄고 싶을 때, 언어 학습 시, 집중이 필요할 때 등 다양한 상황에서 유용하다','영화를 빨리 보고 싶을 때만 유용하다','화면해설은 오히려 집중을 방해한다'],ans:1,fb:"배리어프리 자막은 소음이 많은 환경이나 청력이 일시적으로 불편할 때도 유용해요. 화면해설은 눈을 감고 쉬면서도 내용을 파악할 수 있게 해줘요. 배리어프리는 모두에게 열린 기술이에요."},
+  {type:'fill',cat:'배리어프리란?',q:'배리어프리 영화는 화면해설과 ___을 더해 더 많은 사람이 함께 즐길 수 있게 만든 영화다.',opts:['예고편','한국어 자막','특수효과','3D 안경'],ans:1,fb:"화면해설(시각장애인용)과 한국어 자막(청각장애인용)이 배리어프리 영화의 핵심 두 요소예요."},
+  {type:'fill',cat:'화면해설',q:'화면해설은 대사와 대사 사이의 ___ 구간에 삽입된다.',opts:['엔딩크레딧','침묵','광고','예고편'],ans:1,fb:"대사가 없는 짧은 침묵 구간에 장면을 음성으로 설명해서, 대사를 방해하지 않아요."},
+  {type:'fill',cat:'배리어프리 자막',q:'배리어프리 자막은 대사뿐 아니라 ___ 정보도 텍스트로 표시한다.',opts:['감독 이름','음향 효과·음악','상영 시간','제작비'],ans:1,fb:"'(문 닫히는 소리)'처럼 소리 정보까지 텍스트로 옮겨서, 청각장애인도 분위기를 함께 느낄 수 있어요."},
+  {type:'fill',cat:'배리어프리란?',q:"'Barrier-Free'를 우리말로 옮기면 '장벽이 ___ 것'이라는 뜻이다.",opts:['높은','많은','없는','낮아지는'],ans:2,fb:"Barrier(장벽) + Free(없음), 즉 물리적·정보적 장벽이 없는 상태를 뜻해요."},
+  {type:'fill',cat:'화면해설',q:'좋은 화면해설은 해석이 아니라 눈에 보이는 것을 ___으로 묘사해야 한다.',opts:['주관적','감동적','객관적','간단히'],ans:2,fb:"'슬퍼 보인다'는 해석이고, '눈물을 흘린다'는 관찰이에요. 화면해설은 객관적 묘사가 원칙이에요."},
+  {type:'ox',cat:'OX 퀴즈',q:'화면해설은 시각장애인이 영화 속 장면을 귀로 이해할 수 있도록 돕는 것이다.',ans:0,fb:"맞아요! 성우가 화면 속 행동이나 표정을 말로 설명해줘서, 시각장애인도 영화를 온전히 느낄 수 있어요."},
+  {type:'mc',cat:'배리어프리 자막',q:'배리어프리 자막에 들어가는 정보로 적절하지 않은 것은?',opts:['등장인물의 대사','문이 쾅 닫히는 소리','감독의 다음 작품 계획','긴장감 있는 배경음악'],ans:2,fb:"배리어프리 자막은 대사와 음향·음악 정보를 담아요. 감독의 다음 작품 계획처럼 영화 내용과 무관한 정보는 들어가지 않아요."},
+  {type:'ox',cat:'일상 속 배리어프리',q:'배리어프리는 화면 속 정보뿐 아니라 휠체어석, 경사로 같은 공간 접근성도 포함하는 개념이다.',ans:0,fb:"맞아요! 배리어프리는 '장벽 없음'이라는 뜻으로, 정보 접근성과 공간 접근성을 모두 포함해요."},
+  {type:'mc',cat:'배리어프리란?',q:'배리어프리 영화가 추구하는 가장 핵심적인 가치는?',opts:['가장 빠른 개봉','장애 유무와 관계없이 누구나 함께 즐기는 것','가장 저렴한 티켓','가장 큰 화면'],ans:1,fb:"장애 유무와 관계없이 같은 공간에서 함께 영화를 즐기는 것, 그게 배리어프리가 추구하는 핵심 가치예요."},
 ];
 
 // ── STATE ──
@@ -576,6 +649,7 @@ function renderQ(){
   const body=document.getElementById('quiz-body');
   let html='';
   if(q.type==='ox') html+=`<div class="ox-badge"><span>OX 퀴즈</span></div>`;
+  if(q.type==='fill') html+=`<div class="ox-badge"><span>빈칸 채우기</span></div>`;
   html+=`<div class="quiz-cat">${q.cat}</div>`;
   html+=`<div class="quiz-q">${q.q}</div>`;
 
@@ -768,6 +842,51 @@ function goHome(){
   selectedMoodC=''; selectedMoodR='';
   showScreen('intro');
 }
+
+/* ════════════════════════════════════
+   MAKING (제작과정 카드뉴스)
+   ════════════════════════════════════ */
+const MAKING_STEPS=[
+  {emoji:'🎬',title:'완성된 영화',desc:'먼저 일반 극장용 영화가 완성돼요. 배리어프리 작업은 영화가 다 만들어진 후, 별도로 진행되는 경우가 많아요.'},
+  {emoji:'✍️',title:'화면해설 대본 작성',desc:'화면해설 작가가 영화를 여러 번 보며, 대사 사이 비어있는 순간에 들어갈 설명 대본을 써요. 보이는 것만 객관적으로 묘사하는 게 핵심이에요.'},
+  {emoji:'📝',title:'배리어프리 자막 작업',desc:'자막 전문가가 대사뿐 아니라 음향효과, 음악 분위기까지 텍스트로 옮겨요. "(긴장감 있는 음악)"처럼요.'},
+  {emoji:'🎙️',title:'성우 녹음',desc:'전문 성우가 화면해설 대본을 녹음해요. 정해진 침묵 구간 안에 정확히 들어가야 해서, 세심한 호흡 조절이 필요해요.'},
+  {emoji:'🔎',title:'검수 및 보완',desc:'시각·청각장애인 모니터링단이 직접 확인하며 부족한 부분을 보완해요. 실제 당사자의 피드백이 가장 중요한 단계예요.'},
+  {emoji:'🎉',title:'배리어프리 영화 완성!',desc:'화면해설과 자막이 더해진 영화가 완성돼요. 이제 더 많은 사람이 같은 공간에서 함께 영화를 즐길 수 있어요.'},
+];
+let makingIdx=0;
+
+function renderMaking(){
+  const step=MAKING_STEPS[makingIdx];
+  const card=document.getElementById('making-card');
+  card.innerHTML=`
+    <div class="making-step-num">STEP ${makingIdx+1} / ${MAKING_STEPS.length}</div>
+    <div class="making-emoji">${step.emoji}</div>
+    <div class="making-title">${step.title}</div>
+    <div class="making-desc">${step.desc}</div>
+  `;
+  const prog=document.getElementById('making-progress');
+  prog.innerHTML=MAKING_STEPS.map((_,i)=>`<div class="making-dot${i<=makingIdx?' active':''}"></div>`).join('');
+
+  document.getElementById('making-prev').style.visibility=makingIdx===0?'hidden':'visible';
+  const nextBtn=document.getElementById('making-next');
+  nextBtn.textContent=makingIdx>=MAKING_STEPS.length-1?'처음으로':'다음';
+  nextBtn.onclick=makingIdx>=MAKING_STEPS.length-1?goHome:makingNext;
+}
+
+function makingNext(){
+  if(makingIdx<MAKING_STEPS.length-1){ makingIdx++; renderMaking(); }
+}
+function makingPrev(){
+  if(makingIdx>0){ makingIdx--; renderMaking(); }
+}
+
+// screen-making이 보일 때마다 처음부터 보여주기
+const _origShowScreen=showScreen;
+showScreen=function(id){
+  _origShowScreen(id);
+  if(id==='making'){ makingIdx=0; renderMaking(); }
+};
 
 // 날짜 초기 표시
 document.getElementById('card-date').textContent=todayStr;
