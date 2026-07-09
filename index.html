@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>배리어프리 영화 캠페인 | 종로장애인복지관 × 씨네큐브</title>
-<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2A1F14">
-<meta property="og:title" content="배리어프리 영화 캠페인">
-<meta property="og:description" content="보는 방법이 달라도, 느끼는 건 같아요">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -16,51 +13,31 @@
   --amber:#C8860A;--gold:#E8B84B;--mid:#8B7355;--light-border:#E0D8CC;
   --green:#27AE60;--red:#C0392B;
 }
-html,body{height:100%;background:var(--warm);}
+html,body{min-height:100%;background:var(--warm);}
 body{font-family:'Noto Sans KR',sans-serif;color:var(--dark);overscroll-behavior:none;}
 .app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;}
 
-/* 태블릿/큰 화면: 모바일 카드 형태를 화면 중앙에 띄우고 배경을 채워 비율이 깨지지 않도록 함 */
+/* 태블릿·데스크톱: 폰 카드 비율로 중앙 고정 */
 @media (min-width:640px){
-  body{background:var(--darker);}
-  .app{
-    max-width:480px;
-    min-height:100vh;
-    box-shadow:0 0 60px rgba(0,0,0,.35);
-  }
-}
-@media (min-width:1024px){
-  body{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:100vh;
-  }
-  .app{
-    min-height:min(900px, 92vh);
-    max-height:92vh;
-    overflow-y:auto;
-    border-radius:20px;
-    margin:0;
-  }
+  body{background:var(--darker);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px 16px;}
+  .app{width:100%;max-width:430px;min-height:0;height:min(800px,94vh);border-radius:22px;overflow:hidden;box-shadow:0 0 60px rgba(0,0,0,.4);margin:0;display:flex;flex-direction:column;}
+  .screen{min-height:0;flex:1;overflow-y:auto;}
 }
 
-/* ── SCREEN ── */
 .screen{display:none;flex-direction:column;min-height:100vh;animation:fadeUp .35s ease;}
 .screen.active{display:flex;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media (min-width:640px){.screen{min-height:0;}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
 
 /* ── FILM STRIP ── */
 .film{display:flex;height:22px;overflow:hidden;flex-shrink:0;}
 .film.dark{background:#3D2B1F;}
-.film.light{background:#D4C4A8;}
-.film-hole{width:14px;height:9px;border-radius:2px;margin:6px 4px;flex-shrink:0;}
-.film.dark .film-hole{background:var(--warm);}
-.film.light .film-hole{background:white;}
+.film-hole{width:14px;height:9px;border-radius:2px;margin:6px 4px;flex-shrink:0;background:var(--warm);}
 .film.flip{transform:rotate(180deg);}
 
 /* ── BTN ── */
-.btn{width:100%;border:none;border-radius:6px;cursor:pointer;font-family:inherit;font-weight:700;font-size:15px;padding:15px;transition:all .15s;}
+.btn{width:100%;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:700;font-size:16px;padding:16px;transition:all .15s;}
 .btn-primary{background:var(--amber);color:white;}
 .btn-primary:active{opacity:.85;transform:scale(.98);}
 .btn-ghost{background:transparent;color:var(--mid);border:1px solid var(--light-border);font-size:13px;padding:12px;}
@@ -74,209 +51,139 @@ body{font-family:'Noto Sans KR',sans-serif;color:var(--dark);overscroll-behavior
 .intro-title{font-family:'Noto Serif KR',serif;font-size:28px;line-height:1.55;color:var(--cream);font-weight:700;word-break:keep-all;}
 .intro-title em{font-style:normal;color:var(--gold);}
 .intro-divider{width:32px;height:2px;background:var(--amber);}
-.intro-desc{font-size:14px;line-height:1.85;color:#6A5A48;word-break:keep-all;}
-.intro-meta{display:flex;gap:14px;flex-wrap:wrap;}
-.meta-dot{width:4px;height:4px;border-radius:50%;background:var(--amber);flex-shrink:0;}
-.meta-item{display:flex;align-items:center;gap:6px;font-size:12px;color:#4A3A28;}
-.intro-btns{display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-top:16px;}
+.intro-desc{font-size:14px;line-height:1.85;color:#8A7659;word-break:keep-all;}
+.intro-steps{display:flex;flex-direction:column;gap:11px;}
+.step-row{display:flex;align-items:center;gap:12px;}
+.step-num{width:24px;height:24px;border-radius:50%;background:rgba(232,184,75,.15);border:1px solid rgba(232,184,75,.4);color:var(--gold);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-txt{font-size:13.5px;color:#B8A886;}
+.intro-btns{display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-top:14px;}
+
+/* ── CARDS ── */
+#screen-cards{background:var(--warm);}
+.cd-head{background:var(--darker);padding:20px 24px 18px;text-align:center;}
+.cd-round{font-size:11px;color:#8A7659;letter-spacing:.15em;font-weight:700;}
+.cd-cat-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(232,184,75,.15);border:1px solid rgba(232,184,75,.35);border-radius:20px;padding:7px 16px;font-size:14.5px;color:var(--gold);font-weight:700;margin-top:9px;}
+.cd-title{font-family:'Noto Serif KR',serif;font-size:19px;color:var(--cream);font-weight:700;margin-top:11px;word-break:keep-all;}
+.cd-sub{font-size:12px;color:#8A7659;margin-top:5px;}
+.cd-body{flex:1;display:flex;align-items:center;justify-content:center;padding:24px;}
+.cd-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:340px;}
+.flip-card{aspect-ratio:3/4;perspective:800px;cursor:pointer;border:none;background:none;padding:0;font-family:inherit;}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d;}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+.flip-card.dimmed{opacity:.25;pointer-events:none;transition:opacity .4s;}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.flip-front{background:var(--dark);border:2px solid #4A3626;box-shadow:0 3px 14px rgba(0,0,0,.18);}
+.flip-front .f-strip{position:absolute;top:8px;left:8px;right:8px;height:10px;display:flex;gap:4px;justify-content:center;}
+.flip-front .f-strip i{width:8px;height:6px;border-radius:1.5px;background:rgba(245,240,232,.25);}
+.flip-front .f-strip.bt{top:auto;bottom:8px;}
+.flip-front .f-q{font-family:'Noto Serif KR',serif;font-size:34px;color:var(--gold);font-weight:700;}
+.flip-front .f-lbl{font-size:10px;color:#7A6248;letter-spacing:.1em;}
+.flip-back{background:white;border:2px solid var(--gold);transform:rotateY(180deg);}
+.flip-back .b-emoji{font-size:34px;}
+.flip-back .b-lbl{font-size:12px;color:var(--amber);font-weight:700;}
 
 /* ── QUIZ ── */
 #screen-quiz{background:var(--warm);}
-.quiz-header{background:var(--darker);padding:16px 24px;}
+.quiz-header{background:var(--darker);padding:15px 24px;}
 .progress-row{display:flex;align-items:center;gap:12px;}
-.progress-label{font-size:11px;color:#6A5A48;letter-spacing:.1em;white-space:nowrap;}
+.progress-label{font-size:11px;color:#8A7659;letter-spacing:.1em;white-space:nowrap;}
 .progress-track{flex:1;height:3px;background:#3E2E1E;border-radius:2px;overflow:hidden;}
 .progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s ease;}
-.quiz-body{flex:1;padding:28px 24px;display:flex;flex-direction:column;gap:16px;}
-.ox-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(200,134,10,.1);border:1px solid rgba(200,134,10,.3);border-radius:20px;padding:4px 12px;align-self:flex-start;}
-.ox-badge span{font-size:11px;color:var(--amber);font-weight:700;letter-spacing:.08em;}
-.quiz-cat{font-size:11px;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;font-weight:600;}
+.quiz-body{flex:1;padding:26px 24px;display:flex;flex-direction:column;gap:16px;}
+.type-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(200,134,10,.1);border:1px solid rgba(200,134,10,.3);border-radius:20px;padding:5px 13px;align-self:flex-start;}
+.type-badge span{font-size:11px;color:var(--amber);font-weight:700;letter-spacing:.06em;}
+.quiz-cat{font-size:11.5px;color:var(--amber);letter-spacing:.1em;font-weight:600;}
 .quiz-q{font-family:'Noto Serif KR',serif;font-size:19px;line-height:1.65;color:var(--dark);font-weight:600;word-break:keep-all;}
 .options-mc{display:flex;flex-direction:column;gap:10px;}
-.opt-btn{background:white;border:1.5px solid var(--light-border);border-radius:8px;padding:13px 16px;text-align:left;font-size:14px;color:var(--dark);cursor:pointer;display:flex;align-items:center;gap:12px;line-height:1.5;word-break:keep-all;font-family:inherit;transition:all .15s;width:100%;}
+.opt-btn{background:white;border:1.5px solid var(--light-border);border-radius:10px;padding:15px 16px;text-align:left;font-size:14.5px;color:var(--dark);cursor:pointer;display:flex;align-items:center;gap:12px;line-height:1.5;word-break:keep-all;font-family:inherit;transition:all .15s;width:100%;}
 .opt-btn:disabled{cursor:default;}
-.opt-letter{width:26px;height:26px;border-radius:50%;background:#F0EAE0;color:var(--mid);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;transition:all .15s;}
+.opt-letter{width:27px;height:27px;border-radius:50%;background:#F0EAE0;color:var(--mid);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
 .opt-btn.correct{background:#F0FFF4;border-color:var(--green);}
 .opt-btn.correct .opt-letter{background:var(--green);color:white;}
 .opt-btn.wrong{background:#FFF5F5;border-color:var(--red);}
 .opt-btn.wrong .opt-letter{background:var(--red);color:white;}
 .options-ox{display:flex;gap:14px;margin-top:4px;}
-.ox-btn{flex:1;background:white;border:2px solid var(--light-border);border-radius:14px;padding:22px 0;cursor:pointer;font-family:inherit;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.ox-btn{flex:1;background:white;border:2px solid var(--light-border);border-radius:14px;padding:26px 0;cursor:pointer;font-family:inherit;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:8px;}
 .ox-btn:disabled{cursor:default;}
-.ox-emoji{font-size:32px;}
-.ox-label{font-size:14px;font-weight:700;color:var(--dark);}
+.ox-emoji{font-size:36px;}
+.ox-label{font-size:15px;font-weight:700;color:var(--dark);}
 .ox-btn.correct{background:#F0FFF4;border-color:var(--green);}
 .ox-btn.correct .ox-label{color:var(--green);}
 .ox-btn.wrong{background:#FFF5F5;border-color:var(--red);}
 .ox-btn.wrong .ox-label{color:var(--red);}
-.feedback{background:white;border-left:3px solid var(--amber);padding:13px 15px;border-radius:0 6px 6px 0;font-size:13px;line-height:1.75;color:var(--dark);word-break:keep-all;display:none;}
+.options-cmp{display:flex;flex-direction:column;gap:12px;}
+.cmp-btn{background:white;border:2px solid var(--light-border);border-radius:12px;padding:16px;text-align:left;cursor:pointer;font-family:inherit;transition:all .15s;width:100%;display:flex;flex-direction:column;gap:7px;}
+.cmp-btn:disabled{cursor:default;}
+.cmp-tag{font-size:11px;color:var(--mid);font-weight:700;letter-spacing:.08em;}
+.cmp-text{font-size:15px;line-height:1.7;color:var(--dark);word-break:keep-all;font-family:'Noto Serif KR',serif;}
+.cmp-btn.correct{background:#F0FFF4;border-color:var(--green);}
+.cmp-btn.correct .cmp-tag{color:var(--green);}
+.cmp-btn.wrong{background:#FFF5F5;border-color:var(--red);}
+.cmp-btn.wrong .cmp-tag{color:var(--red);}
+.feedback{background:white;border-left:3px solid var(--amber);padding:14px 15px;border-radius:0 8px 8px 0;font-size:13.5px;line-height:1.75;color:var(--dark);word-break:keep-all;display:none;}
 .feedback.show{display:block;animation:fadeUp .25s ease;}
-.quiz-footer{padding:0 24px 28px;}
-
-/* ── COMMENT ── */
-#screen-comment{background:var(--warm);}
-.comment-header{background:#3D2B1F;padding:28px 24px 22px;}
-.comment-header h2{font-family:'Noto Serif KR',serif;font-size:21px;color:var(--cream);font-weight:700;line-height:1.5;word-break:keep-all;}
-.comment-header p{font-size:13px;color:#B09878;margin-top:8px;line-height:1.65;font-weight:300;}
-.comment-body{flex:1;padding:26px 24px;display:flex;flex-direction:column;gap:22px;}
-.field-label{font-size:12px;color:var(--mid);display:block;margin-bottom:8px;letter-spacing:.08em;font-weight:500;}
-.field-opt{color:#C0B8A8;font-weight:400;}
-.text-input{width:100%;border:1.5px solid var(--light-border);border-radius:6px;padding:12px 14px;font-size:14px;color:var(--dark);background:white;outline:none;font-family:inherit;}
-.text-input:focus{border-color:var(--amber);}
-.mood-row{display:flex;gap:8px;flex-wrap:wrap;}
-.mood-btn{background:white;border:1.5px solid var(--light-border);border-radius:20px;padding:8px 13px;font-size:13px;color:var(--dark);cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;}
-.mood-btn.selected{background:#FFF8EC;border-color:var(--amber);color:var(--amber);font-weight:600;}
-textarea.text-input{height:90px;resize:none;line-height:1.7;}
-.char-count{text-align:right;font-size:11px;color:var(--mid);margin-top:4px;}
-.comment-footer{padding:0 24px 32px;display:flex;flex-direction:column;gap:10px;}
+.quiz-footer{padding:0 24px 26px;}
 
 /* ── CARD ── */
 #screen-card{background:var(--warm);}
-.card-top{background:var(--darker);padding:28px 24px 22px;text-align:center;}
-.card-top .eyebrow{font-size:11px;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;}
+.card-top{background:var(--darker);padding:26px 24px 20px;text-align:center;}
+.card-top .eyebrow{font-size:11px;color:var(--gold);letter-spacing:.15em;margin-bottom:8px;}
 .card-top h2{font-family:'Noto Serif KR',serif;font-size:18px;color:var(--cream);line-height:1.55;word-break:keep-all;}
 .score-row{display:flex;gap:12px;padding:18px 24px 0;}
-.score-box{flex:1;background:white;border:1px solid var(--light-border);border-radius:8px;padding:14px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06);}
-.score-num{font-family:'Noto Serif KR',serif;font-size:26px;color:var(--amber);font-weight:700;}
-.score-lbl{font-size:10px;color:var(--mid);margin-top:4px;letter-spacing:.08em;}
-.participation-card{margin:18px 24px 0;background:white;border:1.5px solid #D4C4A8;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08);}
-.card-inner{padding:20px;display:flex;flex-direction:column;gap:14px;}
+.score-box{flex:1;background:white;border:1px solid var(--light-border);border-radius:8px;padding:13px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.score-num{font-family:'Noto Serif KR',serif;font-size:25px;color:var(--amber);font-weight:700;}
+.score-lbl{font-size:10px;color:var(--mid);margin-top:4px;}
+.participation-card{margin:16px 24px 0;background:white;border:1.5px solid #D4C4A8;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08);}
+.pc-strip{height:16px;background:#D4C4A8;display:flex;justify-content:center;gap:6px;padding:5px 0;}
+.pc-strip i{width:10px;height:6px;border-radius:1.5px;background:white;}
+.card-inner{padding:18px 20px;display:flex;flex-direction:column;gap:13px;}
 .card-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(200,134,10,.1);border:1px solid rgba(200,134,10,.3);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--amber);font-weight:600;align-self:flex-start;}
-.card-name{font-family:'Noto Serif KR',serif;font-size:22px;color:var(--dark);font-weight:700;}
-.card-copy{font-size:13px;color:#5A4A38;line-height:1.75;padding-top:12px;border-top:1px solid #EDE5D8;word-break:keep-all;}
-.card-copy em{font-style:normal;color:var(--amber);font-weight:600;}
-.card-comment{background:var(--warm);border-radius:6px;padding:11px 13px;font-size:13px;color:#5A4A38;line-height:1.65;font-style:italic;word-break:keep-all;border:1px solid #EDE5D8;}
-.card-mood{font-size:12px;color:var(--amber);font-weight:500;}
-.card-footer-row{display:flex;justify-content:space-between;align-items:flex-end;padding-top:4px;}
+.card-grade{font-family:'Noto Serif KR',serif;font-size:22px;color:var(--dark);font-weight:700;word-break:keep-all;}
+.card-grade-sub{font-size:12px;color:var(--amber);font-weight:600;margin-top:-6px;}
+.card-copy{font-size:14px;color:#5A4A38;line-height:1.75;word-break:keep-all;}
+.card-copy em{font-style:normal;color:var(--amber);font-weight:600;font-family:'Noto Serif KR',serif;font-size:15.5px;}
+.card-footer-row{display:flex;justify-content:space-between;align-items:flex-end;padding-top:11px;border-top:1px solid #EDE5D8;}
 .card-org{font-size:10px;color:var(--mid);line-height:1.6;}
 .card-qr-area{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
-.card-qr{width:70px;height:70px;border:1.5px solid #C8A068;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;background:white;padding:3px;}
-.card-qr-icon{font-size:15px;color:#C8A068;}
-.card-qr-lbl{font-size:8px;color:#C8A068;letter-spacing:.05em;}
+.card-qr{width:78px;height:78px;border:1.5px solid #C8A068;border-radius:6px;background:white;padding:3px;display:flex;align-items:center;justify-content:center;}
+.card-qr img{width:100%;height:100%;display:block;}
+.card-hint{font-size:9.5px;color:var(--mid);}
 .card-date{font-size:9px;color:var(--mid);}
-.card-hint{font-size:9px;color:var(--mid);}
-.card-actions{padding:16px 24px 36px;display:flex;flex-direction:column;gap:10px;margin-top:auto;}
-
-/* ── FILM REVIEW ── */
-#screen-filmreview{background:var(--warm);}
-.review-header{background:var(--darker);padding:28px 24px 22px;}
-.back-btn{background:none;border:none;color:#8A7A68;font-size:13px;cursor:pointer;padding:0;margin-bottom:14px;font-family:inherit;}
-.review-header h2{font-family:'Noto Serif KR',serif;font-size:21px;color:var(--cream);font-weight:700;line-height:1.5;word-break:keep-all;}
-.review-header p{font-size:13px;color:#8A7A68;margin-top:8px;line-height:1.65;font-weight:300;word-break:keep-all;}
-.review-body{flex:1;padding:26px 24px;display:flex;flex-direction:column;gap:22px;}
-textarea.review-area{height:110px;resize:none;line-height:1.7;}
-.review-footer{padding:0 24px 32px;display:flex;flex-direction:column;gap:10px;}
-
-/* ── REVIEW DONE ── */
-#screen-reviewdone{background:var(--warm);align-items:center;justify-content:center;text-align:center;padding:32px;}
-.done-emoji{font-size:52px;margin-bottom:8px;}
-.done-title{font-family:'Noto Serif KR',serif;font-size:22px;color:var(--dark);line-height:1.6;word-break:keep-all;}
-.done-desc{font-size:14px;color:var(--mid);line-height:1.8;word-break:keep-all;margin-top:8px;}
-.done-btn-wrap{width:100%;margin-top:16px;}
+.card-actions{padding:16px 24px 32px;display:flex;flex-direction:column;gap:8px;margin-top:auto;}
+.auto-home{font-size:11px;color:#B0A08A;text-align:center;}
 
 /* ── ADMIN ── */
 #screen-admin{background:var(--warm);}
-.admin-header{background:#3D2B1F;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;}
+.admin-header{background:#3D2B1F;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;}
 .admin-header h2{font-family:'Noto Serif KR',serif;font-size:18px;color:var(--cream);}
-.admin-close{background:none;border:none;color:var(--mid);font-size:20px;cursor:pointer;}
-.admin-body{padding:22px;display:flex;flex-direction:column;gap:20px;}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.admin-close{background:none;border:none;color:#B09878;font-size:22px;cursor:pointer;}
+.admin-body{padding:22px;display:flex;flex-direction:column;gap:20px;flex:1;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .stat-card{background:white;border-radius:8px;padding:14px 10px;border:1px solid #E8E0D4;text-align:center;}
-.stat-num{font-family:'Noto Serif KR',serif;font-size:26px;color:var(--amber);font-weight:700;}
+.stat-num{font-family:'Noto Serif KR',serif;font-size:25px;color:var(--amber);font-weight:700;}
 .stat-lbl{font-size:10px;color:var(--mid);margin-top:4px;}
-.section-title{font-size:12px;color:var(--mid);letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:10px;}
-.comment-item{background:white;border-radius:8px;padding:13px 15px;border:1px solid #E8E0D4;margin-bottom:8px;}
-.c-name{font-size:12px;font-weight:600;color:var(--dark);margin-bottom:4px;}
-.c-text{font-size:13px;color:#5A4A38;line-height:1.65;}
-.c-mood{font-size:11px;color:var(--amber);margin-top:5px;}
-.empty-msg{font-size:13px;color:#9A8878;padding:12px 0;}
+.section-title{font-size:12px;color:var(--mid);letter-spacing:.08em;font-weight:600;margin-bottom:10px;}
+.comment-item{background:white;border-radius:8px;padding:12px 14px;border:1px solid #E8E0D4;margin-bottom:8px;}
+.c-name{font-size:12px;font-weight:600;color:var(--dark);}
+.empty-msg{font-size:13px;color:#9A8878;padding:10px 0;}
 
 /* ── MODAL ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center;z-index:999;}
 .modal-overlay.show{display:flex;animation:fadeUp .2s ease;}
-.modal-box{background:white;border-radius:16px 16px 0 0;padding:26px 24px 48px;width:100%;max-width:480px;display:flex;flex-direction:column;gap:14px;}
+.modal-box{background:white;border-radius:16px 16px 0 0;padding:26px 24px 44px;width:100%;max-width:480px;display:flex;flex-direction:column;gap:14px;}
 .modal-title{font-family:'Noto Serif KR',serif;font-size:18px;color:var(--dark);font-weight:700;}
-.modal-input{border:1.5px solid var(--light-border);border-radius:6px;padding:12px 14px;font-size:15px;color:var(--dark);outline:none;letter-spacing:.2em;font-family:inherit;width:100%;}
+.modal-input{border:1.5px solid var(--light-border);border-radius:6px;padding:12px 14px;font-size:15px;outline:none;letter-spacing:.2em;font-family:inherit;width:100%;}
 .modal-input:focus{border-color:var(--amber);}
 .modal-error{font-size:12px;color:var(--red);display:none;}
 .modal-error.show{display:block;}
-
-/* ── HANDWRITE ── */
-#screen-handwrite{background:var(--warm);}
-.hw-header{background:#3D2B1F;padding:24px 24px 18px;}
-.hw-header h2{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--cream);font-weight:700;line-height:1.5;word-break:keep-all;}
-.hw-header p{font-size:12.5px;color:#B09878;margin-top:6px;line-height:1.6;font-weight:300;word-break:keep-all;}
-.hw-body{flex:1;padding:18px 20px 20px;display:flex;flex-direction:column;gap:14px;}
-.hw-canvas-wrap{position:relative;border:1.5px solid var(--light-border);border-radius:12px;background:#FFFFFF;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.05);touch-action:none;}
-.hw-canvas-wrap canvas{display:block;width:100%;touch-action:none;}
-.hw-placeholder{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);text-align:center;color:#C8BCAA;font-size:13px;pointer-events:none;line-height:1.7;word-break:keep-all;}
-.hw-placeholder.hide{display:none;}
-.hw-tools{display:flex;align-items:center;gap:10px;}
-.hw-color{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;flex-shrink:0;padding:0;}
-.hw-color.active{border-color:var(--dark);}
-.hw-size-row{display:flex;align-items:center;gap:8px;flex:1;}
-.hw-size-row input[type=range]{flex:1;accent-color:var(--amber);}
-.hw-divider-v{width:1px;height:22px;background:var(--light-border);flex-shrink:0;}
-.hw-icon-btn{background:white;border:1.5px solid var(--light-border);border-radius:8px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0;color:var(--mid);}
-.hw-icon-btn:active{background:#F0E8DC;}
-.hw-name-row{display:flex;gap:8px;align-items:center;}
-.hw-name-row input{flex:1;}
-.hw-footer{padding:0 20px 32px;display:flex;flex-direction:column;gap:10px;}
-
-/* ── GALLERY ── */
-#screen-gallery{background:var(--warm);}
-.gal-header{background:var(--darker);padding:24px 24px 18px;}
-.gal-header h2{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--cream);font-weight:700;line-height:1.5;word-break:keep-all;}
-.gal-header p{font-size:12.5px;color:#8A7A68;margin-top:6px;line-height:1.6;font-weight:300;}
-.gal-count{display:inline-flex;align-items:center;gap:6px;background:rgba(232,184,75,.15);border:1px solid rgba(232,184,75,.3);border-radius:20px;padding:4px 12px;margin-top:12px;font-size:12px;color:var(--gold);font-weight:600;}
-.gal-body{flex:1;padding:18px 18px 24px;}
-.gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.gal-card{background:white;border:1.5px solid #EDE5D8;border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.05);}
-.gal-card img{width:100%;display:block;background:white;aspect-ratio:4/3;object-fit:contain;}
-.gal-card-foot{padding:8px 10px 10px;}
-.gal-card-name{font-size:11.5px;font-weight:700;color:var(--dark);}
-.gal-card-date{font-size:9.5px;color:var(--mid);margin-top:2px;}
-.gal-empty{text-align:center;padding:60px 20px;color:#9A8878;font-size:13px;line-height:1.8;word-break:keep-all;}
-.gal-fab{position:absolute;bottom:24px;right:20px;width:54px;height:54px;border-radius:50%;background:var(--amber);color:white;border:none;font-size:24px;box-shadow:0 4px 14px rgba(200,134,10,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:50;}
-.gal-footer{padding:0 20px 28px;}
-
-/* ── HW VIEWER MODAL ── */
-.hw-view-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:998;padding:24px;}
-.hw-view-overlay.show{display:flex;}
-.hw-view-box{background:white;border-radius:14px;max-width:420px;width:100%;overflow:hidden;}
-.hw-view-box img{width:100%;display:block;background:white;}
-.hw-view-info{padding:14px 16px 18px;}
-.hw-view-name{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:700;color:var(--dark);}
-.hw-view-date{font-size:11px;color:var(--mid);margin-top:3px;}
-.hw-view-close{margin-top:10px;}
-
-/* ── MAKING (제작과정 카드뉴스) ── */
-#screen-making{background:var(--warm);}
-.making-header{background:var(--darker);padding:24px 24px 18px;}
-.making-header h2{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--cream);font-weight:700;line-height:1.5;word-break:keep-all;}
-.making-header p{font-size:12.5px;color:#8A7A68;margin-top:6px;line-height:1.6;font-weight:300;word-break:keep-all;}
-.making-body{flex:1;padding:22px 24px;display:flex;flex-direction:column;gap:16px;}
-.making-progress{display:flex;gap:6px;}
-.making-dot{flex:1;height:4px;border-radius:2px;background:#E0D8CC;}
-.making-dot.active{background:var(--amber);}
-.making-card{background:white;border:1.5px solid #EDE5D8;border-radius:14px;padding:26px 22px;display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06);min-height:280px;justify-content:center;}
-.making-step-num{font-size:11px;color:var(--amber);letter-spacing:.12em;font-weight:700;}
-.making-emoji{font-size:48px;}
-.making-title{font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700;color:var(--dark);word-break:keep-all;}
-.making-desc{font-size:13.5px;color:#5A4A38;line-height:1.75;word-break:keep-all;}
-.making-nav{display:flex;gap:10px;}
-.making-nav .btn{flex:1;}
-.making-footer{padding:0 24px 32px;}
-
 </style>
 </head>
 <body>
 <div class="app">
 
-<!-- ── INTRO ── -->
+<!-- ══ INTRO ══ -->
 <div id="screen-intro" class="screen active">
   <div class="film dark">
-    <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
     <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
     <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
     <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
@@ -286,20 +193,17 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
     <div class="intro-org">종로장애인복지관 × 씨네큐브</div>
     <div>
       <div class="intro-eyebrow">배리어프리 영화 캠페인 2026</div>
-      <h1 class="intro-title" style="margin-top:10px;">보는 방법이<br>달라도,<br><em>느끼는 건 같아요</em></h1>
+      <h1 class="intro-title" style="margin-top:10px;">카드를 뒤집으면<br><em>함께 보는 영화</em>가<br>시작됩니다</h1>
       <div class="intro-divider" style="margin-top:16px;"></div>
-      <p class="intro-desc" style="margin-top:14px;">배리어프리 영화가 무엇인지 퀴즈로 알아보고,<br>당신의 한 마디를 남겨보세요.</p>
+      <p class="intro-desc" style="margin-top:14px;">뒤집힌 카드 중 한 장을 골라 퀴즈에 도전해보세요.<br>영화 퀴즈 하나, 함께 사는 이야기 하나. 금방 끝나요!</p>
     </div>
-    <div class="intro-meta">
-      <div class="meta-item"><div class="meta-dot"></div>퀴즈 1문항</div>
-      <div class="meta-item"><div class="meta-dot"></div>약 1분 소요</div>
-      <div class="meta-item"><div class="meta-dot"></div>참여 카드 발급</div>
+    <div class="intro-steps">
+      <div class="step-row"><div class="step-num">1</div><div class="step-txt">🎬 영화 퀴즈 — 카드 한 장 골라 풀기</div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-txt">🤝 함께 사는 이야기 — 카드 한 장 더!</div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-txt">🎟️ 나만의 참여 티켓 받기</div></div>
     </div>
     <div class="intro-btns">
-      <button class="btn btn-primary" onclick="startQuiz()">캠페인 참여하기</button>
-      <button class="btn btn-ghost" onclick="showScreen('making')">영화는 어떻게 만들어질까요? 🎞️</button>
-      <button class="btn btn-ghost" onclick="goFilmReview()">영화 보고 오셨나요? 🎬</button>
-      <button class="btn btn-ghost" onclick="openGallery('intro')">손글씨 갤러리 구경하기 🖼️</button>
+      <button class="btn btn-primary" onclick="startGame()">퀴즈 시작하기</button>
       <button class="btn btn-ghost" onclick="showAdminModal()">담당자 입장</button>
     </div>
   </div>
@@ -311,55 +215,34 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
   </div>
 </div>
 
-<!-- ── QUIZ ── -->
+<!-- ══ CARDS ══ -->
+<div id="screen-cards" class="screen">
+  <div class="cd-head">
+    <div class="cd-round" id="cd-round">ROUND 1 / 2</div>
+    <div class="cd-cat-badge" id="cd-cat-badge">🎬 영화 퀴즈</div>
+    <div class="cd-title">마음에 드는 카드를 골라주세요</div>
+    <div class="cd-sub">카드마다 다른 문제가 숨어 있어요</div>
+  </div>
+  <div class="cd-body">
+    <div class="cd-grid" id="cd-grid"></div>
+  </div>
+</div>
+
+<!-- ══ QUIZ ══ -->
 <div id="screen-quiz" class="screen">
   <div class="quiz-header">
     <div class="progress-row">
-      <span class="progress-label" id="quiz-prog-label">1 / 4</span>
-      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:25%"></div></div>
+      <span class="progress-label" id="quiz-prog-label">1 / 2</span>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:50%"></div></div>
     </div>
   </div>
   <div class="quiz-body" id="quiz-body"></div>
   <div class="quiz-footer">
-    <button class="btn btn-primary" id="next-btn" style="display:none" onclick="nextQ()">다음 문제</button>
+    <button class="btn btn-primary" id="next-btn" style="display:none" onclick="nextRound()">다음 문제</button>
   </div>
 </div>
 
-<!-- ── COMMENT ── -->
-<div id="screen-comment" class="screen">
-  <div class="comment-header">
-    <h2>한 마디 남겨주세요 🎬</h2>
-    <p>모두 선택사항이에요. 부담 없이 남겨주세요.</p>
-  </div>
-  <div class="comment-body">
-    <div>
-      <label class="field-label">이름 또는 닉네임 <span class="field-opt">(선택)</span></label>
-      <input class="text-input" id="c-name" type="text" placeholder="예: 종로주민, 영화팬" maxlength="10">
-    </div>
-    <div>
-      <div class="field-label">오늘 캠페인 어땠어요? <span class="field-opt">(선택)</span></div>
-      <div class="mood-row" id="c-mood-row">
-        <button class="mood-btn" onclick="selectMood(this,'c')">🎞️ 새로 배웠어요</button>
-        <button class="mood-btn" onclick="selectMood(this,'c')">💛 따뜻했어요</button>
-        <button class="mood-btn" onclick="selectMood(this,'c')">🤔 생각해볼게요</button>
-        <button class="mood-btn" onclick="selectMood(this,'c')">👏 응원해요</button>
-        <button class="mood-btn" onclick="selectMood(this,'c')">🙋 참여하고 싶어요</button>
-      </div>
-    </div>
-    <div>
-      <div class="field-label">배리어프리 영화에 바라는 점이 있다면? <span class="field-opt">(선택)</span></div>
-      <div style="font-size:11px;color:var(--amber);margin-bottom:6px;display:flex;align-items:center;gap:4px;">🎤 키보드의 마이크 버튼을 누르면 말로도 입력할 수 있어요</div>
-      <textarea class="text-input" id="c-text" placeholder="더 많은 곳에서 볼 수 있으면 좋겠어요, 친구한테 알려야겠어요 등 자유롭게!" maxlength="100" oninput="updateChar('c-text','c-char',100)"></textarea>
-      <div class="char-count"><span id="c-char">0</span> / 100</div>
-    </div>
-  </div>
-  <div class="comment-footer">
-    <button class="btn btn-primary" onclick="submitComment()">참여 카드 받기</button>
-    <button class="btn btn-ghost" onclick="skipComment()">건너뛰고 카드만 받기</button>
-  </div>
-</div>
-
-<!-- ── CARD ── -->
+<!-- ══ CARD ══ -->
 <div id="screen-card" class="screen">
   <div class="card-top">
     <div class="eyebrow">참여 완료</div>
@@ -367,202 +250,60 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
   </div>
   <div class="score-row">
     <div class="score-box"><div class="score-num" id="card-score">0</div><div class="score-lbl">정답 수</div></div>
-    <div class="score-box"><div class="score-num" id="card-total">4</div><div class="score-lbl">전체 문항</div></div>
+    <div class="score-box"><div class="score-num" id="card-total">2</div><div class="score-lbl">전체 문항</div></div>
   </div>
   <div class="participation-card">
-    <div class="film light">
-      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
-      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
-      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
-      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
-    </div>
+    <div class="pc-strip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div class="card-inner">
-      <div class="card-badge">🎬 배리어프리 영화 캠페인 참여 완료</div>
-      <div class="card-name" id="card-name">참여자</div>
-      <div class="card-copy"><em>"보는 방법이 달라도, 느끼는 건 같아요"</em><br>배리어프리 영화와 함께한 오늘을 기억해주세요.</div>
-      <div class="card-comment" id="card-comment" style="display:none"></div>
-      <div class="card-mood" id="card-mood" style="display:none"></div>
+      <div class="card-badge" id="card-ticket-no">🎬 오늘의 관객</div>
+      <div class="card-grade" id="card-grade">따뜻한 관객</div>
+      <div class="card-grade-sub" id="card-grade-sub"></div>
+      <div class="card-copy"><em id="card-fortune">"보는 방법이 달라도, 느끼는 건 같아요"</em></div>
       <div class="card-footer-row">
         <div class="card-org">종로장애인복지관<br>× 씨네큐브</div>
         <div class="card-qr-area">
-          <div class="card-qr" style="padding:2px;background:white;">
-            <img src="data:image/png;base64,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" style="width:62px;height:62px;display:block;" alt="QR">
-          </div>
+          <div class="card-qr"><img src="data:image/png;base64,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" alt="관람소감 QR"></div>
           <div class="card-hint">영화 후 소감 남기기</div>
           <div class="card-date" id="card-date"></div>
         </div>
       </div>
     </div>
-    <div class="film light flip">
-      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
-      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
-      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
-    </div>
+    <div class="pc-strip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   </div>
   <div class="card-actions">
-    <button class="btn btn-primary" onclick="goToHandwrite('card')">손글씨로 소감 남기기 ✍️</button>
-    <button class="btn btn-ghost" onclick="goFilmReview()">영화 보고 오셨나요? 후기 남기기 🎞️</button>
-    <button class="btn btn-ghost" onclick="goHome()">처음으로</button>
+    <button class="btn btn-primary" onclick="goHome()">처음으로</button>
+    <div class="auto-home" id="auto-home"></div>
   </div>
 </div>
 
-<!-- ── FILM REVIEW ── -->
-<div id="screen-filmreview" class="screen">
-  <div class="review-header">
-    <button class="back-btn" onclick="goBack()">← 돌아가기</button>
-    <h2>영화 어떠셨나요? 🎞️</h2>
-    <p>배리어프리 영화를 보고 난 느낌을 들려주세요.</p>
-  </div>
-  <div class="review-body">
-    <div>
-      <label class="field-label">이름 또는 닉네임 <span class="field-opt">(선택)</span></label>
-      <input class="text-input" id="r-name" type="text" placeholder="예: 종로주민, 영화팬" maxlength="10">
-    </div>
-    <div>
-      <div class="field-label">영화 보고 어떤 기분이에요?</div>
-      <div class="mood-row" id="r-mood-row">
-        <button class="mood-btn" onclick="selectMood(this,'r')">😭 울었어요</button>
-        <button class="mood-btn" onclick="selectMood(this,'r')">😊 따뜻했어요</button>
-        <button class="mood-btn" onclick="selectMood(this,'r')">🤩 최고였어요</button>
-        <button class="mood-btn" onclick="selectMood(this,'r')">🤔 생각이 많아졌어요</button>
-        <button class="mood-btn" onclick="selectMood(this,'r')">💛 또 보고싶어요</button>
-      </div>
-    </div>
-    <div>
-      <div class="field-label">영화 소감 <span class="field-opt">(선택)</span></div>
-      <div style="font-size:11px;color:var(--amber);margin-bottom:6px;display:flex;align-items:center;gap:4px;">🎤 키보드의 마이크 버튼을 누르면 말로도 입력할 수 있어요</div>
-      <textarea class="text-input review-area" id="r-text" placeholder="배리어프리 영화를 보고 느낀 점을 자유롭게 써주세요." maxlength="150" oninput="updateChar('r-text','r-char',150)"></textarea>
-      <div class="char-count"><span id="r-char">0</span> / 150</div>
-    </div>
-  </div>
-  <div class="review-footer">
-    <button class="btn btn-primary" onclick="submitReview()">소감 제출하기</button>
-    <button class="btn btn-ghost" onclick="goBack()">취소</button>
-  </div>
-</div>
-
-<!-- ── REVIEW DONE ── -->
-<div id="screen-reviewdone" class="screen">
-  <div class="done-emoji">🎬</div>
-  <h2 class="done-title">소감을 남겨주셔서<br>감사합니다!</h2>
-  <p class="done-desc">여러분의 한 마디가<br>배리어프리 영화를 더 많은 곳에<br>알리는 힘이 됩니다.</p>
-  <div class="done-btn-wrap" style="display:flex;flex-direction:column;gap:10px;">
-    <button class="btn btn-primary" onclick="goToHandwrite('reviewdone')">손글씨로 한 줄 남기기 ✍️</button>
-    <button class="btn btn-ghost" onclick="goHome()">처음으로</button>
-  </div>
-</div>
-
-<!-- ── ADMIN ── -->
+<!-- ══ ADMIN ══ -->
 <div id="screen-admin" class="screen">
   <div class="admin-header">
-    <h2>담당자 현황판</h2>
+    <h2>담당자 화면</h2>
     <button class="admin-close" onclick="goHome()">✕</button>
   </div>
   <div class="admin-body">
     <div class="stat-grid">
-      <div class="stat-card"><div class="stat-num" id="a-campaign">0</div><div class="stat-lbl">캠페인 참여</div></div>
-      <div class="stat-card"><div class="stat-num" id="a-review">0</div><div class="stat-lbl">영화 후기</div></div>
-      <div class="stat-card"><div class="stat-num" id="a-today">0</div><div class="stat-lbl">오늘 합계</div></div>
+      <div class="stat-card"><div class="stat-num" id="st-total">0</div><div class="stat-lbl">참여자 수</div></div>
+      <div class="stat-card"><div class="stat-num" id="st-avg">-</div><div class="stat-lbl">평균 정답률</div></div>
+    </div>
+    <div id="sheet-status" style="display:none;">
+      <div class="section-title">구글시트 연동</div>
+      <div class="comment-item">
+        <div class="c-name" id="sheet-msg">연동 중</div>
+        <input class="modal-input" id="device-input" type="text" placeholder="이 기기 이름 (예: 태블릿1)" maxlength="10" style="letter-spacing:0;margin-top:8px;" onchange="saveDevice(this.value)">
+      </div>
     </div>
     <div>
-      <div class="section-title">캠페인 소감</div>
-      <div id="a-campaign-list"><div class="empty-msg">아직 없어요.</div></div>
+      <div class="section-title">참여 기록</div>
+      <div id="admin-list"><div class="empty-msg">아직 참여 기록이 없어요.</div></div>
     </div>
-    <div>
-      <div class="section-title">영화 후기</div>
-      <div id="a-review-list"><div class="empty-msg">아직 없어요.</div></div>
-    </div>
-  </div>
-</div>
-<!-- ── HANDWRITE ── -->
-<div id="screen-handwrite" class="screen">
-  <div class="hw-header">
-    <button class="back-btn" onclick="goBack()" style="margin-bottom:10px;">← 돌아가기</button>
-    <h2>손글씨로 소감 남기기 ✍️</h2>
-    <p>손가락이나 펜으로 자유롭게 그리거나 써보세요. 모두가 함께 보는 갤러리에 남아요.</p>
-  </div>
-  <div class="hw-body">
-    <div class="hw-canvas-wrap" id="hw-canvas-wrap">
-      <canvas id="hw-canvas"></canvas>
-      <div class="hw-placeholder" id="hw-placeholder">여기에 손글씨나 그림을<br>자유롭게 남겨주세요</div>
-    </div>
-    <div class="hw-tools">
-      <button class="hw-color active" style="background:#2A1F14" data-color="#2A1F14" onclick="pickColor(this)"></button>
-      <button class="hw-color" style="background:#C8860A" data-color="#C8860A" onclick="pickColor(this)"></button>
-      <button class="hw-color" style="background:#27AE60" data-color="#27AE60" onclick="pickColor(this)"></button>
-      <button class="hw-color" style="background:#2D6CA8" data-color="#2D6CA8" onclick="pickColor(this)"></button>
-      <button class="hw-color" style="background:#C0392B" data-color="#C0392B" onclick="pickColor(this)"></button>
-      <div class="hw-divider-v"></div>
-      <button class="hw-icon-btn" onclick="undoStroke()" title="되돌리기">↩︎</button>
-      <button class="hw-icon-btn" onclick="clearCanvas()" title="전체 지우기">🗑</button>
-    </div>
-    <div class="hw-size-row">
-      <span style="font-size:11px;color:var(--mid);white-space:nowrap;">펜 굵기</span>
-      <input type="range" id="hw-size" min="2" max="14" value="4" oninput="setSize(this.value)">
-    </div>
-    <div class="hw-name-row">
-      <input class="text-input" id="hw-name" type="text" placeholder="이름 또는 닉네임 (선택)" maxlength="10">
-    </div>
-  </div>
-  <div class="hw-footer">
-    <button class="btn btn-primary" onclick="submitHandwrite()">갤러리에 남기기</button>
-    <button class="btn btn-ghost" onclick="goBack()">건너뛰기</button>
+    <button class="btn btn-primary" onclick="downloadCSV()" style="margin-top:auto;">참여 기록 엑셀(CSV) 다운로드</button>
+    <button class="btn btn-ghost" onclick="resetRecords()">기록 전체 삭제</button>
   </div>
 </div>
 
-<!-- ── GALLERY ── -->
-<div id="screen-gallery" class="screen">
-  <div class="gal-header">
-    <button class="back-btn" onclick="goHome()" style="margin-bottom:10px;">← 처음으로</button>
-    <h2>모두의 손글씨 갤러리 🖼️</h2>
-    <p>관람객들이 직접 남긴 손글씨와 그림이에요.</p>
-    <div class="gal-count" id="gal-count">0개의 작품</div>
-  </div>
-  <div class="gal-body">
-    <div class="gal-grid" id="gal-grid"></div>
-    <div class="gal-empty" id="gal-empty" style="display:none;">아직 갤러리가 비어있어요.<br>첫 번째 작품을 남겨보세요!</div>
-  </div>
-  <div class="gal-footer">
-    <button class="btn btn-primary" onclick="goToHandwrite('gallery')">나도 손글씨 남기기 ✍️</button>
-  </div>
-  <button class="gal-fab" onclick="goToHandwrite('gallery')" title="손글씨 남기기" aria-label="손글씨 남기기">✍️</button>
-</div>
-
-<!-- ── MAKING (제작과정 카드뉴스) ── -->
-<div id="screen-making" class="screen">
-  <div class="making-header">
-    <button class="back-btn" onclick="goHome()" style="margin-bottom:10px;">← 처음으로</button>
-    <h2>배리어프리 영화는 어떻게 만들어질까요? 🎞️</h2>
-    <p>한 편의 영화가 배리어프리 영화가 되기까지의 과정이에요.</p>
-  </div>
-  <div class="making-body">
-    <div class="making-progress" id="making-progress"></div>
-    <div class="making-card" id="making-card"></div>
-    <div class="making-nav">
-      <button class="btn btn-ghost" id="making-prev" onclick="makingPrev()">이전</button>
-      <button class="btn btn-primary" id="making-next" onclick="makingNext()">다음</button>
-    </div>
-  </div>
-  <div class="making-footer">
-    <button class="btn btn-ghost" onclick="goHome()">처음으로</button>
-  </div>
-</div>
-
-</div><!-- .app -->
-
-<!-- ── HW VIEWER MODAL ── -->
-<div class="hw-view-overlay" id="hw-view-overlay" onclick="if(event.target===this)closeHwView()">
-  <div class="hw-view-box">
-    <img id="hw-view-img" src="" alt="손글씨 확대 보기">
-    <div class="hw-view-info">
-      <div class="hw-view-name" id="hw-view-name"></div>
-      <div class="hw-view-date" id="hw-view-date"></div>
-      <button class="btn btn-ghost hw-view-close" onclick="closeHwView()">닫기</button>
-    </div>
-  </div>
-</div>
-
-<!-- ── ADMIN MODAL ── -->
+<!-- ══ ADMIN MODAL ══ -->
 <div class="modal-overlay" id="admin-modal">
   <div class="modal-box">
     <div class="modal-title">담당자 비밀번호</div>
@@ -574,517 +315,406 @@ textarea.review-area{height:110px;resize:none;line-height:1.7;}
 </div>
 
 <script>
-const ADMIN_PW = '0517';
-const TOTAL_Q = 1;
-const todayStr = new Date().toLocaleDateString('ko-KR');
+'use strict';
+const ADMIN_PW='0517';
 
-// ── QUIZ DATA ──
-const ALL_Q = [
-  {type:'mc',cat:'배리어프리란?',q:'배리어프리(Barrier-Free) 영화란 무엇일까요?',opts:['무료로 볼 수 있는 영화','시각·청각 장애인도 함께 즐길 수 있도록 화면해설·자막을 추가한 영화','어린이를 위해 폭력 장면을 삭제한 영화','해외 수입 없이 국내에서 제작한 영화'],ans:1,fb:"배리어프리 영화는 화면해설(시각장애인용)과 한국어 자막(청각장애인용)을 더해, 더 많은 사람이 함께 영화를 즐길 수 있도록 만든 영화예요."},
-  {type:'ox',cat:'OX 퀴즈',q:'배리어프리 영화는 장애인만 관람할 수 있다.',ans:1,fb:"배리어프리 영화는 누구나 함께 볼 수 있어요. 다양한 사람이 같은 공간에서 같은 감동을 나누는 게 바로 배리어프리의 의미입니다."},
-  {type:'mc',cat:'배리어프리란?',q:"'배리어프리(Barrier-Free)'를 한국어로 옮기면 무엇에 가장 가까울까요?",opts:['무료 관람','장벽 없음','무대 없음','자유 입장'],ans:1,fb:"Barrier(장벽) + Free(없음) = 장벽 없음이에요. 물리적 장벽뿐 아니라 정보 접근의 장벽까지 없애는 것을 뜻해요."},
-  {type:'ox',cat:'OX 퀴즈',q:'배리어프리는 영화관 시설(경사로, 엘리베이터)에만 해당하는 개념이다.',ans:1,fb:"아니에요! 배리어프리는 물리적 시설뿐 아니라 정보 접근(화면해설·자막), 소통 방식, 사회적 태도까지 포함하는 넓은 개념이에요."},
-  {type:'mc',cat:'화면해설',q:'화면해설 영화에서 성우는 주로 어떤 내용을 설명할까요?',opts:['배우들의 실제 나이와 출연료','대사와 대사 사이, 화면 속 행동·표정·장면 변화','감독의 연출 의도와 시나리오 배경','영화 제작비와 흥행 성적'],ans:1,fb:"화면해설은 대사가 없는 순간에 장면을 음성으로 묘사해줘요. '주인공이 창가에 서서 빗속을 바라본다'처럼요. 시각장애인이 귀로 영화를 볼 수 있게 해줍니다."},
-  {type:'ox',cat:'OX 퀴즈',q:'화면해설 성우는 배우 대사가 나오는 도중에도 설명을 덧붙인다.',ans:1,fb:"화면해설은 대사와 대사 사이 '침묵' 구간에만 삽입돼요. 짧은 공백 안에 핵심 정보만 담는 게 기술이에요."},
-  {type:'mc',cat:'화면해설',q:'좋은 화면해설 묘사로 가장 적절한 것은?',opts:['주인공이 슬퍼 보인다','주인공이 눈물을 흘리며 창밖을 바라본다','주인공이 울고 있는 것 같다','주인공의 감정이 복잡해 보인다'],ans:1,fb:"화면해설은 주관적 해석 없이 눈에 보이는 것만 객관적으로 묘사해야 해요. '슬퍼 보인다'는 해석이고, '눈물을 흘린다'는 관찰이에요."},
-  {type:'mc',cat:'배리어프리 자막',q:'배리어프리 한국어 자막은 일반 자막과 어떻게 다를까요?',opts:['글자 크기만 더 크다','대사뿐 아니라 음향 효과·음악 정보도 텍스트로 표시한다','외국어 번역이 추가된다','화면 중앙에 고정된다'],ans:1,fb:"'문이 쾅 닫힌다', '긴장감 있는 음악'처럼 소리 정보까지 텍스트로 전달해요. 청각장애인이 영화의 분위기까지 느낄 수 있도록 돕는 거예요."},
-  {type:'ox',cat:'OX 퀴즈',q:'배리어프리 자막은 효과음·음악 정보도 텍스트로 표시한다.',ans:0,fb:"맞아요! '(총소리)', '(빗소리 점점 커짐)'처럼 청각 정보를 텍스트로 전달해요. 청각장애인이 소리 없이도 영화의 감정과 분위기를 온전히 느낄 수 있도록 돕는 장치예요."},
-  {type:'mc',cat:'배리어프리 자막',q:"배리어프리 자막에서 '(웅장한 오케스트라 음악)'이라고 표시하는 이유는?",opts:['번역가의 실수로 들어간 것이다','청각장애인이 음악의 분위기도 느낄 수 있도록 돕기 위해','자막 길이를 맞추기 위해','영화 등급 표시를 위해'],ans:1,fb:"소리를 듣지 못해도 '웅장한 음악이 흐르는구나'를 알 수 있어야 영화의 감동이 전달돼요. 배리어프리 자막은 청각 정보를 시각으로 번역하는 작업이에요."},
-  {type:'mc',cat:'접근성',q:'한국에서 배리어프리 영화 상영이 법적으로 의무화되어 있을까요?',opts:['모든 극장에서 매달 의무 상영','아직 법적 의무 규정이 충분하지 않다','멀티플렉스만 의무 적용','2021년부터 전면 의무화'],ans:1,fb:"아직 법적 의무 규정은 충분하지 않아요. 씨네큐브 같은 공간이 자발적으로 배리어프리 상영을 운영하는 이유도 여기에 있답니다."},
-  {type:'ox',cat:'OX 퀴즈',q:'한국의 모든 영화관은 배리어프리 상영을 의무적으로 운영해야 한다.',ans:1,fb:"아직 의무 규정이 충분하지 않아요. 일부 극장이 자발적으로 운영하고 있을 뿐이에요. 더 많은 곳에서 이루어지려면 제도적 변화와 사회적 관심이 필요해요."},
-  {type:'mc',cat:'접근성',q:'배리어프리 영화 제작에서 가장 먼저 필요한 것은?',opts:['유명 배우 캐스팅','화면해설 작가와 자막 전문가의 참여','대형 제작사의 투자','해외 수출 계약'],ans:1,fb:"배리어프리 영화는 화면해설 작가, 자막 작가, 전문 성우 등 여러 전문가가 함께 만들어요. 영화 완성 후 별도로 제작되는 경우가 많아서 추가 시간과 비용이 필요해요."},
-  {type:'mc',cat:'일상 속 배리어프리',q:'영화관에서 휠체어 이용자를 위한 배려로 적절하지 않은 것은?',opts:['휠체어석을 입구 근처 한곳에만 배치한다','다양한 위치에 휠체어석을 두고 동반인 좌석도 나란히 둔다','경사로와 엘리베이터를 설치한다','화장실에 넓은 문과 손잡이를 설치한다'],ans:0,fb:"휠체어석이 한 곳에만 몰려 있으면 오히려 분리처럼 느껴질 수 있어요. 다양한 위치에 배치하고, 동반인 좌석도 나란히 있어야 '함께 보는 영화'가 가능해요."},
-  {type:'mc',cat:'일상 속 배리어프리',q:'청각장애인이 영화를 즐기기 위해 가장 필요한 것은?',opts:['더 큰 화면','음향 효과까지 담긴 배리어프리 한국어 자막','특별 할인 티켓','전용 상영관'],ans:1,fb:"청각장애인에게는 대사와 음향 정보가 모두 담긴 배리어프리 자막이 핵심이에요. 전용 공간보다 일반 관객과 함께 같은 공간에서 볼 수 있는 환경이 진정한 배리어프리예요."},
-  {type:'ox',cat:'OX 퀴즈',q:'영화관 매표소 앞에 계단만 있다면, 배리어프리 원칙에 어긋난다.',ans:0,fb:"맞아요! 계단만 있는 공간은 휠체어 이용자, 유모차, 거동이 불편한 어르신 등 많은 사람에게 장벽이 돼요. 배리어프리는 공간 접근성도 포함해요."},
-  {type:'mc',cat:'일상 속 배리어프리',q:'시각장애인이 영화관을 방문할 때 도움이 되지 않는 것은?',opts:['점자 안내판','음성 안내 시스템','화면 밝기 조절','직원의 안내 서비스'],ans:2,fb:"화면 밝기 조절은 시각 정보를 주로 활용하기 때문에 시각장애인에게 직접적 도움이 되지 않아요. 점자 안내판, 음성 안내, 직원 서비스가 공간 접근성을 높여줘요."},
-  {type:'mc',cat:'함께보는 영화',q:'배리어프리 영화 상영에서 가장 중요한 가치는?',opts:['최신 영화를 가장 빨리 상영하는 것','장애 유무와 관계없이 누구나 같은 공간에서 함께 즐기는 것','티켓 가격을 낮추는 것','영화관 규모를 키우는 것'],ans:1,fb:"배리어프리는 '장벽 없음'이라는 뜻이에요. 같은 공간에서 같은 감동을 나누는 것, 그게 배리어프리 상영이 추구하는 핵심 가치예요."},
-  {type:'ox',cat:'OX 퀴즈',q:'배리어프리 영화의 화면해설·자막 작업은 전문 훈련이 필요하다.',ans:0,fb:"맞아요! 화면해설 작가는 시각 정보를 객관적으로 묘사하는 훈련을 받고, 성우도 별도 녹음 과정을 거쳐요. 하나의 영화에 많은 전문가의 노력이 담겨 있답니다."},
-  {type:'mc',cat:'함께보는 영화',q:'배리어프리 영화를 보면 비장애인에게도 유용한 경우는?',opts:['전혀 도움이 되지 않는다','소리를 끄고 싶을 때, 언어 학습 시, 집중이 필요할 때 등 다양한 상황에서 유용하다','영화를 빨리 보고 싶을 때만 유용하다','화면해설은 오히려 집중을 방해한다'],ans:1,fb:"배리어프리 자막은 소음이 많은 환경이나 청력이 일시적으로 불편할 때도 유용해요. 화면해설은 눈을 감고 쉬면서도 내용을 파악할 수 있게 해줘요. 배리어프리는 모두에게 열린 기술이에요."},
-  {type:'fill',cat:'배리어프리란?',q:'배리어프리 영화는 화면해설과 ___을 더해 더 많은 사람이 함께 즐길 수 있게 만든 영화다.',opts:['예고편','한국어 자막','특수효과','3D 안경'],ans:1,fb:"화면해설(시각장애인용)과 한국어 자막(청각장애인용)이 배리어프리 영화의 핵심 두 요소예요."},
-  {type:'fill',cat:'화면해설',q:'화면해설은 대사와 대사 사이의 ___ 구간에 삽입된다.',opts:['엔딩크레딧','침묵','광고','예고편'],ans:1,fb:"대사가 없는 짧은 침묵 구간에 장면을 음성으로 설명해서, 대사를 방해하지 않아요."},
-  {type:'fill',cat:'배리어프리 자막',q:'배리어프리 자막은 대사뿐 아니라 ___ 정보도 텍스트로 표시한다.',opts:['감독 이름','음향 효과·음악','상영 시간','제작비'],ans:1,fb:"'(문 닫히는 소리)'처럼 소리 정보까지 텍스트로 옮겨서, 청각장애인도 분위기를 함께 느낄 수 있어요."},
-  {type:'fill',cat:'배리어프리란?',q:"'Barrier-Free'를 우리말로 옮기면 '장벽이 ___ 것'이라는 뜻이다.",opts:['높은','많은','없는','낮아지는'],ans:2,fb:"Barrier(장벽) + Free(없음), 즉 물리적·정보적 장벽이 없는 상태를 뜻해요."},
-  {type:'fill',cat:'화면해설',q:'좋은 화면해설은 해석이 아니라 눈에 보이는 것을 ___으로 묘사해야 한다.',opts:['주관적','감동적','객관적','간단히'],ans:2,fb:"'슬퍼 보인다'는 해석이고, '눈물을 흘린다'는 관찰이에요. 화면해설은 객관적 묘사가 원칙이에요."},
-  {type:'ox',cat:'OX 퀴즈',q:'화면해설은 시각장애인이 영화 속 장면을 귀로 이해할 수 있도록 돕는 것이다.',ans:0,fb:"맞아요! 성우가 화면 속 행동이나 표정을 말로 설명해줘서, 시각장애인도 영화를 온전히 느낄 수 있어요."},
-  {type:'mc',cat:'배리어프리 자막',q:'배리어프리 자막에 들어가는 정보로 적절하지 않은 것은?',opts:['등장인물의 대사','문이 쾅 닫히는 소리','감독의 다음 작품 계획','긴장감 있는 배경음악'],ans:2,fb:"배리어프리 자막은 대사와 음향·음악 정보를 담아요. 감독의 다음 작품 계획처럼 영화 내용과 무관한 정보는 들어가지 않아요."},
-  {type:'ox',cat:'일상 속 배리어프리',q:'배리어프리는 화면 속 정보뿐 아니라 휠체어석, 경사로 같은 공간 접근성도 포함하는 개념이다.',ans:0,fb:"맞아요! 배리어프리는 '장벽 없음'이라는 뜻으로, 정보 접근성과 공간 접근성을 모두 포함해요."},
-  {type:'mc',cat:'배리어프리란?',q:'배리어프리 영화가 추구하는 가장 핵심적인 가치는?',opts:['가장 빠른 개봉','장애 유무와 관계없이 누구나 함께 즐기는 것','가장 저렴한 티켓','가장 큰 화면'],ans:1,fb:"장애 유무와 관계없이 같은 공간에서 함께 영화를 즐기는 것, 그게 배리어프리가 추구하는 핵심 가치예요."},
+/* ══════════ 구글시트 연동 (선택) ══════════
+   여러 태블릿의 참여 기록을 구글시트 한 곳에 모으는 기능.
+   1) 구글시트 새로 만들기 → 확장 프로그램 > Apps Script
+   2) 안내받은 스크립트 붙여넣기 → 배포 > 새 배포 > 웹 앱
+      (실행 계정: 나 / 액세스 권한: 모든 사용자)
+   3) 발급된 웹 앱 URL을 아래 따옴표 안에 붙여넣기
+   비워두면('') 태블릿에만 저장됩니다.                      */
+const SHEET_URL='';
+
+const todayStr=new Date().toLocaleDateString('ko-KR');
+
+/* ══════════ 그룹·카테고리 ══════════
+   라운드1 = movie 그룹, 라운드2 = life 그룹에서 출제됩니다. */
+const CATS={
+  bf:{name:'배리어프리 영화',emoji:'🎬',group:'movie'},
+  ad:{name:'화면해설·자막',  emoji:'🎧',group:'movie'},
+  et:{name:'함께하는 에티켓',emoji:'🤝',group:'life'},
+  wd:{name:'올바른 표현',    emoji:'💬',group:'life'},
+  ac:{name:'일상 속 접근성', emoji:'🚌',group:'life'},
+};
+const GROUPS={
+  movie:{label:'🎬 영화 퀴즈',title:'배리어프리 영화에 대한 문제예요'},
+  life:{label:'🤝 함께 사는 이야기',title:'일상 속 장애이해에 대한 문제예요'},
+};
+
+/* ══════════ 소리 퀴즈 (준비되면 사용) ══════════
+   SOUND_ENABLED=true로 바꾸고 SOUND_Q에 문항을 채우면
+   영화 퀴즈(라운드1)에 소리 문제가 섞여 나옵니다.
+   audio: mp3 파일 경로 (index.html과 같은 폴더면 파일명만)   */
+const SOUND_ENABLED=false;
+const SOUND_Q=[
+ /* 예시:
+ {cat:'sd',type:'mc',audio:'clips/clip01.mp3',
+  q:'이 화면해설은 어떤 영화의 장면일까요?',
+  opts:['기생충','나는 보리','CODA','인터스텔라'],ans:0,
+  fb:'정답은 기생충!'},
+ */
 ];
+if(SOUND_ENABLED) CATS.sd={name:'소리 퀴즈',emoji:'🔊',group:'movie'};
 
-// ── STATE ──
-let curQuestions=[], curIdx=0, score=0, answered=false;
-let selectedMoodC='', selectedMoodR='';
+/* ══════════ 퀴즈 문항 (총 60문항, 검토표 문서와 번호 동일) ══════════
+   type: 'ox'(O/X) | 'mc'(4지선다) | 'cmp'(더 좋은 화면해설 고르기)
+   ox의 ans: 0=맞다(⭕), 1=아니다(❌) / mc·cmp의 ans: 정답 보기 순번(0부터) */
+const ALL_Q=[
+
+/* ── 🎬 배리어프리 영화 (BF-01 ~ BF-12) ── */
+{id:'BF-01',cat:'bf',type:'mc',q:'배리어프리(Barrier-Free) 영화란 무엇일까요?',opts:['무료로 볼 수 있는 영화','화면해설과 자막을 더해 누구나 함께 즐길 수 있게 만든 영화','폭력 장면을 삭제한 영화','국내에서만 제작한 영화'],ans:1,fb:'화면해설(음성으로 장면 설명)과 배리어프리 자막(소리 정보까지 글로 표시)을 더한 영화예요. 더 많은 사람이 같은 공간에서 함께 즐길 수 있어요.'},
+{id:'BF-02',cat:'bf',type:'ox',q:'배리어프리 영화는 장애인만 볼 수 있다.',ans:1,fb:'누구나 함께 볼 수 있어요. 다양한 사람이 같은 극장에서 같은 감동을 나누는 것이 배리어프리의 핵심이에요.'},
+{id:'BF-03',cat:'bf',type:'mc',q:"'Barrier-Free'를 우리말로 옮기면?",opts:['무료 관람','장벽 없음','무대 없음','자유 입장'],ans:1,fb:'Barrier(장벽)+Free(없음)=장벽 없음! 계단 같은 물리적 장벽뿐 아니라 정보의 장벽까지 없애자는 뜻이에요.'},
+{id:'BF-04',cat:'bf',type:'ox',q:'배리어프리 자막은 비장애인에게도 쓸모가 있다.',ans:0,fb:'맞아요! 시끄러운 지하철에서 자막으로 영상을 보는 것처럼, 배리어프리 기술은 이미 모두의 일상 속에 있어요.'},
+{id:'BF-05',cat:'bf',type:'mc',q:'배리어프리 영화를 만드는 두 가지 핵심 요소는?',opts:['예고편과 포스터','화면해설과 배리어프리 자막','더빙과 3D 효과','광고와 시사회'],ans:1,fb:'화면해설은 장면을 음성으로, 배리어프리 자막은 대사와 소리를 글로 전해요. 이 둘이 있으면 훨씬 많은 사람이 영화를 온전히 즐길 수 있어요.'},
+{id:'BF-06',cat:'bf',type:'ox',q:'우리나라 모든 영화관은 배리어프리 상영을 의무적으로 운영한다.',ans:1,fb:'아직 의무 규정이 충분하지 않아요. 씨네큐브처럼 자발적으로 상영하는 곳이 있을 뿐이라, 제도와 관심이 더 필요해요.'},
+{id:'BF-07',cat:'bf',type:'mc',q:'배리어프리 상영에서 가장 중요한 가치는?',opts:['최신 영화 빠른 개봉','장애 유무와 관계없이 같은 공간에서 함께 즐기는 것','저렴한 티켓','큰 화면'],ans:1,fb:'따로 마련된 자리가 아니라 같은 공간, 같은 시간에 함께 웃고 우는 것. 그게 배리어프리 상영이 추구하는 가치예요.'},
+{id:'BF-08',cat:'bf',type:'ox',q:'배리어프리 영화 관람은 특별한 배려가 아니라 당연한 권리다.',ans:0,fb:'맞아요! 문화를 누릴 권리는 모두에게 있어요. 배리어프리는 그 권리를 실현하는 당연한 방법이에요.'},
+{id:'BF-09',cat:'bf',type:'mc',q:'배리어프리 버전은 보통 언제 만들어질까요?',opts:['촬영과 동시에 자동으로 생긴다','영화가 완성된 뒤 별도의 제작 과정을 거친다','개봉 10년 후에','만들어지지 않는다'],ans:1,fb:'완성된 영화에 화면해설 대본을 쓰고, 성우가 녹음하고, 자막을 만드는 별도의 과정을 거쳐요. 그래서 시간과 정성이 많이 들어가요.'},
+{id:'BF-10',cat:'bf',type:'ox',q:'배리어프리 버전 한 편을 만들려면 작가, 성우 등 여러 사람의 작업이 필요하다.',ans:0,fb:'맞아요! 화면해설 작가, 전문 성우, 자막 작가, 모니터 요원까지. 한 편의 배리어프리 영화에는 많은 사람의 손길이 담겨 있어요.'},
+{id:'BF-11',cat:'bf',type:'ox',q:'배리어프리 상영은 우리나라에만 있는 문화다.',ans:1,fb:'해외에서도 오픈 캡션 상영, 오디오 디스크립션 상영 등 다양한 이름으로 널리 이루어지고 있어요. 함께 보는 문화는 세계 공통이에요.'},
+{id:'BF-12',cat:'bf',type:'mc',q:'배리어프리 영화가 더 많아지려면 무엇이 가장 필요할까요?',opts:['비싼 티켓 가격','더 많은 관심과 제도적 지원','더 긴 상영 시간','팝콘 할인'],ans:1,fb:'관객의 관심, 극장의 참여, 제도적 지원이 모이면 배리어프리 상영은 특별한 날의 행사가 아니라 일상이 될 수 있어요. 오늘 참여가 그 시작이에요!'},
+
+/* ── 🎧 화면해설·자막 (AD-01 ~ AD-12) ── */
+{id:'AD-01',cat:'ad',type:'mc',q:'화면해설 성우는 주로 무엇을 설명할까요?',opts:['배우의 실제 나이','대사 사이사이 화면 속 행동·표정·장면 변화','감독의 연출 의도','제작비와 흥행 성적'],ans:1,fb:"대사가 없는 순간에 '주인공이 창가에 서서 빗속을 바라본다'처럼 장면을 음성으로 전해요. 귀로 영화를 보는 방법이에요."},
+{id:'AD-02',cat:'ad',type:'ox',q:'화면해설은 배우의 대사 중간에도 끼어든다.',ans:1,fb:'화면해설은 대사와 대사 사이 침묵 구간에만 들어가요. 짧은 틈에 꼭 필요한 정보만 담는 게 화면해설 작가의 기술이에요.'},
+{id:'AD-03',cat:'ad',type:'cmp',q:'둘 중 더 좋은 화면해설은 어느 쪽일까요?',opts:['주인공이 슬퍼 보인다','주인공이 눈물을 흘리며 창밖을 바라본다'],ans:1,fb:"'슬퍼 보인다'는 해설자의 해석이고, '눈물을 흘린다'는 눈에 보이는 사실이에요. 화면해설은 해석 대신 관찰한 것을 그대로 전해서, 듣는 사람이 스스로 느끼게 해요."},
+{id:'AD-04',cat:'ad',type:'cmp',q:'긴장되는 장면, 더 좋은 화면해설은?',opts:['무서운 분위기가 이어진다','어두운 복도, 남자가 벽에 등을 붙이고 천천히 걷는다'],ans:1,fb:'분위기를 단정하는 대신 보이는 것을 구체적으로 묘사하면, 듣는 사람이 직접 긴장감을 느낄 수 있어요. 좋은 화면해설은 감정을 대신 느껴주지 않아요.'},
+{id:'AD-05',cat:'ad',type:'mc',q:'배리어프리 자막이 일반 자막과 다른 점은?',opts:['글자가 더 크다','대사뿐 아니라 음향·음악 정보도 글로 표시한다','외국어 번역이 추가된다','화면 중앙에 고정된다'],ans:1,fb:"'(문이 쾅 닫힌다)', '(잔잔한 피아노 선율)'처럼 소리 정보까지 글로 옮겨요. 소리를 듣지 않아도 영화의 분위기까지 전해지죠."},
+{id:'AD-06',cat:'ad',type:'ox',q:"자막에 '(빗소리 점점 커짐)'이라고 쓰는 것은 배리어프리 자막의 특징이다.",ans:0,fb:'맞아요! 청각 정보를 시각 정보로 번역하는 것이 배리어프리 자막이에요. 빗소리가 커지는 긴장감까지 글로 전해집니다.'},
+{id:'AD-07',cat:'ad',type:'mc',q:'화면해설이 들어가는 구간은?',opts:['엔딩크레딧','대사와 대사 사이의 침묵 구간','광고 시간','예고편'],ans:1,fb:'대사를 가리지 않도록 침묵 구간에만 넣어요. 그래서 화면해설 대본은 초 단위로 계산해서 쓰는 정교한 작업이에요.'},
+{id:'AD-08',cat:'ad',type:'ox',q:'화면해설은 화면 속 모든 것을 빠짐없이 설명해야 한다.',ans:1,fb:'짧은 침묵 구간에 다 담을 수 없어서, 이야기를 따라가는 데 꼭 필요한 핵심만 골라 전해요. 무엇을 남기고 무엇을 덜어낼지가 작가의 실력이에요.'},
+{id:'AD-09',cat:'ad',type:'cmp',q:'강아지가 나오는 장면, 더 좋은 화면해설은?',opts:['강아지가 행복해한다','강아지가 꼬리를 세차게 흔들며 달려온다'],ans:1,fb:"'행복해한다'는 해설자의 짐작이지만, '꼬리를 흔들며 달려온다'는 눈에 보이는 모습 그대로예요. 듣는 사람이 장면을 머릿속에 그릴 수 있게 돕는 것이 좋은 해설이에요."},
+{id:'AD-10',cat:'ad',type:'mc',q:'배리어프리 자막에서 말하는 사람의 이름을 함께 표시하는 이유는?',opts:['글자 수를 늘리려고','화면 밖 목소리나 여러 인물의 대사를 구분하기 위해','배우를 홍보하려고','자막 규정 때문에'],ans:1,fb:'화면에 없는 사람이 말하거나 여러 명이 대화할 때, 누구의 대사인지 알 수 있도록 이름을 함께 적어요. 작은 표시 하나가 이야기를 놓치지 않게 해줘요.'},
+{id:'AD-11',cat:'ad',type:'ox',q:'화면해설 대본은 침묵 구간의 길이에 맞춰 초 단위로 쓴다.',ans:0,fb:'맞아요! 3초의 틈에는 3초 분량만. 시간을 재가며 쓰고 고치기를 반복하는 섬세한 작업이에요.'},
+{id:'AD-12',cat:'ad',type:'mc',q:'화면해설을 들으며 영화를 보는 방법으로 맞는 것은?',opts:['별도의 상영관에서만 가능하다','수신기나 이어폰으로 해설을 들으며 같은 상영관에서 함께 본다','집에서만 가능하다','자막과 함께 볼 수 없다'],ans:1,fb:'폐쇄형 상영은 수신기로 해설을 들어서, 같은 상영관에서 모두가 함께 영화를 즐길 수 있어요. 개방형 상영은 해설이 스피커로 나와 다 같이 듣고요.'},
+
+/* ── 🤝 함께하는 에티켓 (ET-01 ~ ET-12) ── */
+{id:'ET-01',cat:'et',type:'ox',q:'일하는 중인 안내견을 만나면 귀엽다고 쓰다듬어도 된다.',ans:1,fb:'안내견은 지금 일하는 중이에요. 쓰다듬거나 먹을 것을 주면 집중이 흐트러질 수 있어요. 만지고 싶다면 반드시 파트너(이용자)에게 먼저 물어봐 주세요.'},
+{id:'ET-02',cat:'et',type:'mc',q:'휠체어를 이용하는 분을 도와드리고 싶을 때 가장 먼저 할 일은?',opts:['바로 휠체어를 밀어드린다','필요한지 먼저 여쭤본다','주변 사람을 부른다','모른 척한다'],ans:1,fb:'도움이 필요한지, 어떻게 도우면 좋을지는 본인이 가장 잘 알아요. "도와드릴까요?" 한마디로 시작하면 됩니다. 원하지 않는 도움은 도움이 아닐 수 있어요.'},
+{id:'ET-03',cat:'et',type:'ox',q:'시각장애인을 안내할 땐 팔을 잡아끌기보다 내 팔을 내어주는 것이 좋다.',ans:0,fb:'맞아요! 갑자기 잡아끌면 놀라거나 위험할 수 있어요. 내 팔꿈치를 잡도록 내어주고 반 걸음 앞에서 걸으면 편안하게 함께 이동할 수 있어요.'},
+{id:'ET-04',cat:'et',type:'mc',q:'청각장애인과 대화할 때 좋은 방법은?',opts:['등 뒤에서 크게 말한다','얼굴을 마주 보고 입 모양이 잘 보이게 말한다','대화를 포기한다','옆 사람에게 대신 말해달라고 한다'],ans:1,fb:'마주 보고 또박또박 말하기, 필요하면 글로 쓰기, 스마트폰 메모 활용하기 등 방법은 많아요. 중요한 건 당사자에게 직접 이야기하는 거예요.'},
+{id:'ET-05',cat:'et',type:'ox',q:'장애인을 보면 무조건 도와주는 것이 예의다.',ans:1,fb:'먼저 물어보는 것이 예의예요. 혼자 할 수 있는 일을 갑자기 도우면 오히려 불편할 수 있어요. 필요할 때, 원하는 방식으로 함께하면 충분해요.'},
+{id:'ET-06',cat:'et',type:'mc',q:'한국수어에 대한 설명으로 맞는 것은?',opts:['한국어를 손으로 그대로 옮긴 것','국어와 동등한 자격을 가진 독립된 언어','만국 공통어','소리를 흉내 내는 몸짓'],ans:1,fb:'한국수어는 한국수화언어법으로 인정받은, 국어와 동등한 하나의 언어예요. 고유한 문법과 표현을 가지고 있답니다.'},
+{id:'ET-07',cat:'et',type:'ox',q:'안내견은 식당, 극장 등 어디든 함께 들어갈 수 있다.',ans:0,fb:'맞아요! 법으로 보장된 권리예요. 안내견의 출입을 거부하면 과태료가 부과될 수 있어요. 극장에서 안내견을 만나면 반갑게, 그러나 조용히 지나쳐 주세요.'},
+{id:'ET-08',cat:'et',type:'mc',q:'극장에서 화면해설 수신기를 쓰는 관객을 봤다면?',opts:['신기해서 계속 쳐다본다','뭘 쓰는지 물어본다','평소처럼 자연스럽게 함께 관람한다','자리를 옮긴다'],ans:2,fb:'각자의 방법으로 같은 영화를 즐기는 것뿐이에요. 특별하게 여기지 않고 자연스럽게 함께 보는 것, 그게 가장 좋은 매너예요.'},
+{id:'ET-09',cat:'et',type:'mc',q:'목발이나 흰지팡이를 이용하는 분 곁을 지날 때 하지 말아야 할 것은?',opts:['평소처럼 지나가기','충분한 공간 두고 걷기','보조기구를 허락 없이 만지거나 옮기기','인사하기'],ans:2,fb:'흰지팡이, 목발, 휠체어 같은 보조기구는 그 사람 몸의 일부와 같아요. 허락 없이 만지거나 옮기지 않는 것이 기본 예의예요.'},
+{id:'ET-10',cat:'et',type:'ox',q:'수어통역사가 함께 있어도, 말할 때 시선은 당사자를 향하는 것이 좋다.',ans:0,fb:'맞아요! 대화의 주인공은 당사자예요. 통역사가 아니라 당사자의 눈을 보며 이야기하면 훨씬 자연스러운 대화가 됩니다.'},
+{id:'ET-11',cat:'et',type:'mc',q:'발달장애인과 대화할 때 좋은 태도는?',opts:['보호자에게만 말한다','아이 대하듯 말한다','쉬운 말로, 본인에게 직접 이야기한다','대화를 피한다'],ans:2,fb:'나이에 맞게 존중하며, 쉬운 말로, 당사자에게 직접! 이해할 시간을 충분히 드리는 것도 중요해요.'},
+{id:'ET-12',cat:'et',type:'ox',q:'처음 만난 자리에서 장애의 원인을 꼬치꼬치 묻는 것은 실례가 될 수 있다.',ans:0,fb:'맞아요. 누구나 처음 만난 사람에게 개인사를 캐물으면 부담스럽죠. 관계가 쌓이고 상대가 편하게 이야기할 때 자연스럽게 들으면 됩니다.'},
+
+/* ── 💬 올바른 표현 (WD-01 ~ WD-12) ── */
+{id:'WD-01',cat:'wd',type:'mc',q:"'장애우'라는 말 대신 쓰는 올바른 표현은?",opts:['장애자','장애인','불편한 분','환자'],ans:1,fb:"'장애우(友)'는 상대를 친구로 규정해버리는 일방적인 말이라 당사자들이 원하지 않는 표현이에요. 법적 용어이기도 한 '장애인'이 올바른 표현입니다."},
+{id:'WD-02',cat:'wd',type:'ox',q:"장애인의 반대말은 '정상인'이다.",ans:1,fb:"'정상인'이라고 하면 장애인은 비정상이라는 뜻이 돼버려요. 올바른 표현은 '비장애인'입니다."},
+{id:'WD-03',cat:'wd',type:'mc',q:"'장애를 앓고 있다'는 표현이 적절하지 않은 이유는?",opts:['너무 길어서','장애는 질병이 아니기 때문','발음이 어려워서','옛날 말이라서'],ans:1,fb:"장애는 치료해야 할 병이 아니라 그 사람이 가진 특성이자 상태예요. '장애가 있다'라고 표현하면 됩니다."},
+{id:'WD-04',cat:'wd',type:'ox',q:"'눈먼 돈', '벙어리 냉가슴' 같은 관용구는 무심코 쓰는 차별 표현일 수 있다.",ans:0,fb:'맞아요! 오래 쓰여온 말이라도 장애를 부정적 비유로 쓰는 표현이에요. 알고 나면 다른 말로 바꿔 쓸 수 있어요.'},
+{id:'WD-05',cat:'wd',type:'mc',q:"'휠체어를 탄 사람'보다 권장되는 표현은?",opts:['휠체어에 갇힌 사람','휠체어 이용자(휠체어를 이용하는 사람)','걷지 못하는 사람','바퀴 달린 사람'],ans:1,fb:"휠체어는 갇히는 곳이 아니라 자유롭게 이동하게 해주는 수단이에요. 그래서 '이용한다'는 표현이 더 정확해요."},
+{id:'WD-06',cat:'wd',type:'ox',q:'장애는 개인이 노력해서 극복해야 할 문제다.',ans:1,fb:'장애를 만드는 건 계단, 자막 없는 영화 같은 사회의 장벽이에요. 개인의 극복이 아니라 함께 장벽을 없애는 것이 우리 모두의 일이에요. 그래서 배리어프리!'},
+{id:'WD-07',cat:'wd',type:'ox',q:'말은 습관이라 차별 표현은 바꿀 수 없다.',ans:1,fb:'알아차리는 것부터가 시작이에요. 오늘 이 퀴즈를 푼 것처럼, 하나씩 알아가면 말은 충분히 바뀔 수 있어요.'},
+{id:'WD-08',cat:'wd',type:'mc',q:"'벙어리장갑'을 대신하는 표현으로 제안된 말은?",opts:['손모아장갑','주먹장갑','통장갑','겨울장갑'],ans:0,fb:"'손모아장갑'이라는 예쁜 우리말이 제안되어 점점 널리 쓰이고 있어요. 말 하나를 바꾸는 것도 함께 사는 연습이에요."},
+{id:'WD-09',cat:'wd',type:'ox',q:"'결정장애'처럼 장애를 부정적인 비유로 쓰는 유행어도 다시 생각해볼 표현이다.",ans:0,fb:"맞아요. '장애'를 부족함이나 결함의 비유로 쓰면, 장애를 부정적인 것으로 여기는 인식이 굳어져요. '결정을 잘 못 한다'고 말하면 충분해요."},
+{id:'WD-10',cat:'wd',type:'mc',q:"시각장애가 있는 분을 가리키는 올바른 표현은?",opts:['맹인','장님','시각장애인','앞 못 보는 사람'],ans:2,fb:"'맹인', '장님'은 오래된 낮춤 표현이에요. '시각장애인'이 올바른 표현입니다. 부르는 말이 바뀌면 대하는 태도도 바뀌어요."},
+{id:'WD-11',cat:'wd',type:'ox',q:"'장애인'과 비교할 때 '일반인'이라는 표현을 쓰는 것이 적절하다.",ans:1,fb:"'일반인'이라고 하면 장애인은 '일반적이지 않은 사람'이 돼버려요. '비장애인'이 올바른 표현이에요."},
+{id:'WD-12',cat:'wd',type:'mc',q:'뉴스나 글에서 장애 관련 표현을 쓸 때 가장 좋은 기준은?',opts:['재미있게 들리는 말','당사자들이 원하는 표현을 쓰는 것','짧은 말','유행하는 말'],ans:1,fb:'표현의 주인은 당사자예요. 당사자들이 어떤 말을 원하는지 귀 기울이는 것이 올바른 표현의 시작이에요.'},
+
+/* ── 🚌 일상 속 접근성 (AC-01 ~ AC-12) ── */
+{id:'AC-01',cat:'ac',type:'mc',q:'저상버스가 편리한 사람은 누구일까요?',opts:['휠체어 이용자만','휠체어 이용자, 유모차 끄는 부모, 어르신, 캐리어 든 여행자 모두','운전기사만','아무도 없다'],ans:1,fb:'턱이 없는 버스는 모두에게 편해요. 접근성은 소수를 위한 것이 아니라 결국 모두를 위한 디자인이에요.'},
+{id:'AC-02',cat:'ac',type:'ox',q:'경사로는 휠체어 이용자만을 위한 시설이다.',ans:1,fb:'유모차, 자전거, 짐수레, 다리를 다친 사람까지 모두가 쓰는 시설이에요. 배리어프리 시설은 언젠가 나에게도 필요해져요.'},
+{id:'AC-03',cat:'ac',type:'mc',q:'점자블록 위에 하면 안 되는 것은?',opts:['그냥 지나가기','비켜서 걷기','물건을 쌓아두거나 차를 세워두기','청소하기'],ans:2,fb:'점자블록은 시각장애인의 길 안내 표지예요. 그 위에 물건이나 차가 있으면 길이 끊기는 것과 같아요. 비워두는 것만으로 큰 힘이 됩니다.'},
+{id:'AC-04',cat:'ac',type:'ox',q:'엘리베이터의 점자 버튼과 음성 안내도 배리어프리 시설이다.',ans:0,fb:'맞아요! 우리 주변에는 이미 많은 배리어프리가 있어요. 오늘부터 하나씩 찾아보면 꽤 재미있답니다.'},
+{id:'AC-05',cat:'ac',type:'mc',q:'무인 키오스크가 누군가에게 장벽이 되는 이유가 아닌 것은?',opts:['화면이 너무 높아서','음성 안내가 없어서','글씨가 작고 시간 제한이 있어서','메뉴가 맛이 없어서'],ans:3,fb:'키오스크는 휠체어 이용자, 시각장애인, 어르신에게 높은 장벽이 되기도 해요. 최근에는 음성 안내와 높이 조절이 되는 키오스크가 늘고 있어요.'},
+{id:'AC-06',cat:'ac',type:'ox',q:'접근성은 특별한 배려가 아니라 모두가 누려야 할 권리다.',ans:0,fb:'맞아요! 이동하고, 문화를 즐기고, 정보를 얻는 것은 모두의 권리예요. 배리어프리는 그 권리를 실현하는 방법이고요.'},
+{id:'AC-07',cat:'ac',type:'mc',q:'영화관 휠체어석은 어떻게 마련되는 것이 좋을까요?',opts:['맨 앞줄 구석 한 곳에만','다양한 위치에, 동반인 좌석과 나란히','따로 마련된 방에','복도에'],ans:1,fb:"한 곳에만 몰려 있으면 '분리된 자리'가 돼요. 원하는 위치를 고를 수 있고 일행과 나란히 앉을 수 있어야 진짜 '함께 보는 영화'가 됩니다."},
+{id:'AC-08',cat:'ac',type:'ox',q:'자막 기능과 음성 안내 기술은 장애인만 사용한다.',ans:1,fb:'시끄러운 카페에서 자막으로 영상 보기, 운전하며 음성 길안내 듣기. 우리 모두 이미 매일 쓰고 있어요!'},
+{id:'AC-09',cat:'ac',type:'mc',q:'영화관 말고도 배리어프리로 즐길 수 있는 문화생활은?',opts:['없다','수어통역 공연, 음성해설 전시 등 점점 다양해지고 있다','운동 경기만 가능하다','해외에서만 가능하다'],ans:1,fb:'수어통역이 있는 연극, 작품을 손으로 만져보는 터치투어 전시, 음성해설 미술관 관람까지. 함께 즐기는 문화는 점점 넓어지고 있어요.'},
+{id:'AC-10',cat:'ac',type:'ox',q:'지하철역 엘리베이터가 늘어난 것은 장애인 이동권 운동의 성과이기도 하다.',ans:0,fb:'맞아요. 당사자들이 오랫동안 목소리를 내온 덕분에 지금은 모두가 그 엘리베이터를 편하게 이용하고 있어요. 권리를 위한 움직임이 모두의 일상을 바꿨죠.'},
+{id:'AC-11',cat:'ac',type:'mc',q:'횡단보도의 음향신호기는 어떤 역할을 할까요?',opts:['음악을 틀어준다','신호가 바뀐 것을 소리로 알려준다','광고를 내보낸다','차를 멈추게 한다'],ans:1,fb:'버튼을 누르면 신호 상태를 소리로 알려줘서 시각장애인도 안전하게 길을 건널 수 있어요. 거리 곳곳의 접근성, 한번 찾아보세요!'},
+{id:'AC-12',cat:'ac',type:'ox',q:'높이 조절과 음성 안내가 되는 배리어프리 키오스크가 점점 늘어나고 있다.',ans:0,fb:'맞아요! 법과 인식이 바뀌면서 누구나 쓸 수 있는 키오스크가 늘고 있어요. 기술이 장벽이 아니라 다리가 되도록, 관심이 계속 필요해요.'},
+];
+SOUND_Q.forEach(q=>ALL_Q.push(q));
+
+/* ══════════ 상태 ══════════ */
+const ROUND_GROUPS=['movie','life']; // 라운드1=영화, 라운드2=장애이해
+let curRound=0, score=0, answered=false;
+let curQ=null, cardQs=[];
+let pools={};
+let autoTimer=null, autoCount=0;
+
+/* 기록 저장: 아티팩트(window.storage)→localStorage→메모리 순 */
+const store={
+  async get(k){ try{ if(window.storage){const r=await window.storage.get(k).catch(()=>null);return r?r.value:null;} return localStorage.getItem(k); }catch(e){return null;} },
+  async set(k,v){ try{ if(window.storage){await window.storage.set(k,v);return;} localStorage.setItem(k,v); }catch(e){} }
+};
 let records=[];
-let prevScreen='intro';
+let pending=[]; // 시트 전송 대기열 (오프라인 대비)
+let deviceName='';
+(async()=>{
+  const r=await store.get('bf-records'); if(r){try{records=JSON.parse(r);}catch(e){}}
+  const p=await store.get('bf-pending'); if(p){try{pending=JSON.parse(p);}catch(e){}}
+  deviceName=(await store.get('bf-device'))||'';
+  flushPending(); // 접속 시 못 보낸 기록 재전송
+})();
 
-function shuffle(arr){
-  const a=[...arr];
-  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
-  return a;
+/* ── 구글시트 전송 ── */
+async function sendToSheet(rec){
+  if(!SHEET_URL) return true;
+  try{
+    await fetch(SHEET_URL,{method:'POST',mode:'no-cors',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams({device:deviceName||'태블릿',date:rec.date,time:rec.time||'',score:rec.score,total:rec.total})});
+    return true;
+  }catch(e){return false;}
+}
+async function queueAndSend(rec){
+  if(!SHEET_URL) return;
+  pending.push(rec);
+  await store.set('bf-pending',JSON.stringify(pending));
+  flushPending();
+}
+async function flushPending(){
+  if(!SHEET_URL||!pending.length) return;
+  const remain=[];
+  for(const rec of pending){
+    const ok=await sendToSheet(rec);
+    if(!ok) remain.push(rec); // 전송 실패분은 남겨두고 다음에 재시도
+  }
+  pending=remain;
+  await store.set('bf-pending',JSON.stringify(pending));
 }
 
-// ── SCREEN ──
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+id).classList.add('active');
-  window.scrollTo(0,0);
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+id).classList.add('active');window.scrollTo(0,0);document.querySelectorAll('.screen.active').forEach(s=>s.scrollTop=0);}
+
+/* ══════════ 흐름 ══════════ */
+function startGame(){
+  curRound=0;score=0;
+  pools={movie:shuffle(ALL_Q.filter(q=>CATS[q.cat].group==='movie')),
+         life: shuffle(ALL_Q.filter(q=>CATS[q.cat].group==='life'))};
+  openCards();
 }
 
-// ── QUIZ ──
-function startQuiz(){
-  curQuestions=shuffle(ALL_Q).slice(0,TOTAL_Q);
-  curIdx=0; score=0; answered=false;
-  showScreen('quiz');
-  renderQ();
+function openCards(){
+  curRound++;
+  const g=ROUND_GROUPS[curRound-1];
+  document.getElementById('cd-round').textContent=`ROUND ${curRound} / 2`;
+  document.getElementById('cd-cat-badge').textContent=GROUPS[g].label;
+  document.querySelector('.cd-sub').textContent=GROUPS[g].title;
+  // 카드 4장에 서로 다른 문제를 미리 배정
+  cardQs=pools[g].splice(0,4);
+  const grid=document.getElementById('cd-grid');
+  grid.innerHTML='';
+  cardQs.forEach((q,i)=>{
+    const c=CATS[q.cat];
+    const b=document.createElement('button');
+    b.className='flip-card';
+    b.setAttribute('aria-label','카드 '+(i+1));
+    b.innerHTML=`<div class="flip-inner">
+      <div class="flip-face flip-front">
+        <div class="f-strip"><i></i><i></i><i></i><i></i></div>
+        <div class="f-q">?</div><div class="f-lbl">CINEMA QUIZ</div>
+        <div class="f-strip bt"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="flip-face flip-back">
+        <div class="b-emoji">${c.emoji}</div><div class="b-lbl">${c.name}</div>
+      </div>
+    </div>`;
+    b.onclick=()=>pickCard(b,i);
+    grid.appendChild(b);
+  });
+  showScreen('cards');
 }
 
+function pickCard(btn,i){
+  if(btn.classList.contains('flipped'))return;
+  btn.classList.add('flipped');
+  document.querySelectorAll('.flip-card').forEach(c=>{if(c!==btn)c.classList.add('dimmed');c.onclick=null;});
+  curQ=cardQs[i];
+  setTimeout(()=>{renderQ();showScreen('quiz');},850);
+}
+
+/* ══════════ 퀴즈 ══════════ */
 function renderQ(){
-  const q=curQuestions[curIdx];
-  const pct=((curIdx+1)/TOTAL_Q)*100;
-  document.getElementById('quiz-prog-label').textContent=`${curIdx+1} / ${TOTAL_Q}`;
-  document.getElementById('progress-fill').style.width=pct+'%';
-  document.getElementById('next-btn').style.display='none';
+  const q=curQ, c=CATS[q.cat];
   answered=false;
+  document.getElementById('quiz-prog-label').textContent=`${curRound} / 2`;
+  document.getElementById('progress-fill').style.width=(curRound/2*100)+'%';
+  document.getElementById('next-btn').style.display='none';
 
-  const body=document.getElementById('quiz-body');
   let html='';
-  if(q.type==='ox') html+=`<div class="ox-badge"><span>OX 퀴즈</span></div>`;
-  if(q.type==='fill') html+=`<div class="ox-badge"><span>빈칸 채우기</span></div>`;
-  html+=`<div class="quiz-cat">${q.cat}</div>`;
+  const badge={ox:'OX 퀴즈',mc:'네 개 중 하나!',cmp:'더 좋은 화면해설은?'};
+  html+=`<div class="type-badge"><span>${badge[q.type]||'퀴즈'}</span></div>`;
+  html+=`<div class="quiz-cat">${c.emoji} ${c.name}</div>`;
   html+=`<div class="quiz-q">${q.q}</div>`;
+  if(q.audio) html+=`<audio controls src="${q.audio}" style="width:100%"></audio>`;
 
   if(q.type==='ox'){
     html+=`<div class="options-ox">
-      <button class="ox-btn" id="ox0" onclick="pickOX(0)"><span class="ox-emoji">⭕</span><span class="ox-label">맞다</span></button>
-      <button class="ox-btn" id="ox1" onclick="pickOX(1)"><span class="ox-emoji">❌</span><span class="ox-label">아니다</span></button>
+      <button class="ox-btn" id="ans0" onclick="pickAns(0)"><span class="ox-emoji">⭕</span><span class="ox-label">맞다</span></button>
+      <button class="ox-btn" id="ans1" onclick="pickAns(1)"><span class="ox-emoji">❌</span><span class="ox-label">아니다</span></button>
     </div>`;
+  } else if(q.type==='cmp'){
+    const tags=['가','나'];
+    html+=`<div class="options-cmp">`;
+    q.opts.forEach((opt,i)=>{
+      html+=`<button class="cmp-btn" id="ans${i}" onclick="pickAns(${i})">
+        <span class="cmp-tag">해설 ${tags[i]}</span><span class="cmp-text">"${opt}"</span></button>`;
+    });
+    html+=`</div>`;
   } else {
     const letters=['A','B','C','D'];
     html+=`<div class="options-mc">`;
     q.opts.forEach((opt,i)=>{
-      html+=`<button class="opt-btn" id="opt${i}" onclick="pickMC(${i})">
-        <span class="opt-letter">${letters[i]}</span><span>${opt}</span>
-      </button>`;
+      html+=`<button class="opt-btn" id="ans${i}" onclick="pickAns(${i})">
+        <span class="opt-letter">${letters[i]}</span><span>${opt}</span></button>`;
     });
     html+=`</div>`;
   }
   html+=`<div class="feedback" id="feedback">${q.fb}</div>`;
-  body.innerHTML=html;
+  document.getElementById('quiz-body').innerHTML=html;
 }
 
-function pickMC(i){
+function pickAns(i){
   if(answered)return;
   answered=true;
-  const q=curQuestions[curIdx];
+  const q=curQ;
   if(i===q.ans)score++;
-  document.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
-  document.getElementById('opt'+i).classList.add(i===q.ans?'correct':'wrong');
-  if(i!==q.ans)document.getElementById('opt'+q.ans).classList.add('correct');
-  showFeedback();
-}
-
-function pickOX(i){
-  if(answered)return;
-  answered=true;
-  const q=curQuestions[curIdx];
-  if(i===q.ans)score++;
-  document.querySelectorAll('.ox-btn').forEach(b=>b.disabled=true);
-  document.getElementById('ox'+i).classList.add(i===q.ans?'correct':'wrong');
-  if(i!==q.ans)document.getElementById('ox'+q.ans).classList.add('correct');
-  showFeedback();
-}
-
-function showFeedback(){
-  const fb=document.getElementById('feedback');
-  fb.classList.add('show');
+  document.querySelectorAll('#quiz-body button').forEach(b=>b.disabled=true);
+  document.getElementById('ans'+i).classList.add(i===q.ans?'correct':'wrong');
+  if(i!==q.ans){const c=document.getElementById('ans'+q.ans);if(c)c.classList.add('correct');}
+  document.getElementById('feedback').classList.add('show');
   const btn=document.getElementById('next-btn');
   btn.style.display='block';
-  btn.textContent=curIdx+1>=TOTAL_Q?'소감 남기기':'다음 문제';
+  btn.textContent=curRound>=2?'참여 카드 받기 🎟️':'다음 카드 뽑기';
 }
 
-function nextQ(){
-  curIdx++;
-  if(curIdx>=TOTAL_Q){
+/* 관람 등급 (점수별 칭호) */
+const GRADES={
+  2:{title:'배리어프리 큐레이터',sub:'두 문제 모두 정답! 완벽한 관람이었어요'},
+  1:{title:'따뜻한 관객',sub:'한 문제 정답! 좋은 시선을 가지셨네요'},
+  0:{title:'설레는 첫 관객',sub:'예고편 감상 완료! 본편은 극장에서 만나요'},
+};
+
+/* 참여 카드에 랜덤으로 찍히는 문구 (매월 교체 가능) */
+const FORTUNES=[
+  '"보는 방법이 달라도, 느끼는 건 같아요"',
+  '"빛은 모두에게, 이야기도 모두에게"',
+  '"좋은 영화는 함께 볼 때 더 좋아져요"',
+  '"같은 시간, 같은 자리, 같은 웃음"',
+  '"장벽이 사라진 자리에 이야기가 남아요"',
+  '"귀로 보는 영화, 눈으로 듣는 영화"',
+  '"모두의 영화, 모두의 시간"',
+  '"자막 한 줄, 해설 한 마디가 문을 열어요"',
+  '"함께 웃는 순간, 극장이 완성돼요"',
+  '"영화가 끝나도 함께한 마음은 남아요"',
+  '"누구나 주인공이 되는 극장으로"',
+  '"오늘 뒤집은 카드가 내일의 극장을 바꿔요"',
+  '"당신의 옆자리에서 시작되는 이야기"',
+  '"천천히 봐도, 다르게 봐도, 영화는 영화"',
+  '"다음 상영에서 또 만나요"',
+];
+
+async function nextRound(){
+  if(curRound>=2){
+    // 기록 저장 후 참여 티켓 화면
+    const rec={score,total:2,date:todayStr,time:new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})};
+    records.push(rec);
+    await store.set('bf-records',JSON.stringify(records));
+    queueAndSend(rec);
+    const todayCount=records.filter(r=>r.date===todayStr).length;
+    const g=GRADES[score]||GRADES[0];
     document.getElementById('card-score').textContent=score;
-    document.getElementById('card-total').textContent=TOTAL_Q;
-    showScreen('comment');
+    document.getElementById('card-total').textContent=2;
+    document.getElementById('card-date').textContent=todayStr;
+    document.getElementById('card-ticket-no').textContent=`🎬 오늘의 ${todayCount}번째 관객`;
+    document.getElementById('card-grade').textContent=g.title;
+    document.getElementById('card-grade-sub').textContent=g.sub;
+    document.getElementById('card-fortune').textContent=FORTUNES[Math.floor(Math.random()*FORTUNES.length)];
+    showScreen('card');
+    startAutoHome();
   } else {
-    renderQ();
+    openCards();
   }
 }
 
-// ── MOOD ──
-function selectMood(btn,prefix){
-  const row=document.getElementById(prefix+'-mood-row');
-  row.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
-  btn.classList.add('selected');
-  if(prefix==='c') selectedMoodC=btn.textContent.trim();
-  else selectedMoodR=btn.textContent.trim();
+/* 참여 카드 화면에서 30초 후 자동으로 처음 화면 복귀 (부스용) */
+function startAutoHome(){
+  clearInterval(autoTimer);
+  autoCount=30;
+  const el=document.getElementById('auto-home');
+  el.textContent=`${autoCount}초 후 처음 화면으로 돌아가요`;
+  autoTimer=setInterval(()=>{
+    autoCount--;
+    if(autoCount<=0){goHome();return;}
+    el.textContent=`${autoCount}초 후 처음 화면으로 돌아가요`;
+  },1000);
 }
 
-function updateChar(tid,cid,max){
-  const val=document.getElementById(tid).value.length;
-  document.getElementById(cid).textContent=val;
-}
-
-// ── COMMENT ──
-function submitComment(){
-  const name=document.getElementById('c-name').value.trim()||'익명 참여자';
-  const text=document.getElementById('c-text').value.trim();
-  const entry={name,mood:selectedMoodC,text,score,total:TOTAL_Q,date:todayStr,type:'campaign'};
-  records.push(entry);
-  renderCard(entry);
-  showScreen('card');
-}
-
-function skipComment(){
-  const entry={name:'익명 참여자',mood:'',text:'',score,total:TOTAL_Q,date:todayStr,type:'campaign'};
-  records.push(entry);
-  renderCard(entry);
-  showScreen('card');
-}
-
-function renderCard(entry){
-  document.getElementById('card-name').textContent=entry.name;
-  document.getElementById('card-date').textContent=entry.date;
-  const cmt=document.getElementById('card-comment');
-  const moodEl=document.getElementById('card-mood');
-  if(entry.text){cmt.textContent=`"${entry.text}"`;cmt.style.display='block';}
-  else cmt.style.display='none';
-  if(entry.mood){moodEl.textContent=entry.mood;moodEl.style.display='block';}
-  else moodEl.style.display='none';
-}
-
-// ── FILM REVIEW ──
-function goFilmReview(){
-  prevScreen=document.querySelector('.screen.active').id.replace('screen-','');
-  // 필드 초기화
-  document.getElementById('r-name').value='';
-  document.getElementById('r-text').value='';
-  document.getElementById('r-char').textContent='0';
-  document.getElementById('r-mood-row').querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
-  selectedMoodR='';
-  showScreen('filmreview');
-}
-
-function submitReview(){
-  const name=document.getElementById('r-name').value.trim()||'익명';
-  const text=document.getElementById('r-text').value.trim();
-  records.push({name,mood:selectedMoodR,text,date:todayStr,type:'review'});
-  showScreen('reviewdone');
-}
-
-function goBack(){
-  showScreen(prevScreen||'intro');
-}
-
-// ── CARD SHARE ──
-function shareCard(){
-  if(navigator.share){
-    navigator.share({
-      title:'배리어프리 영화 캠페인',
-      text:'"보는 방법이 달라도, 느끼는 건 같아요" 🎬\n종로장애인복지관 × 씨네큐브 캠페인에 참여했어요!',
-      url:location.href
-    }).catch(()=>{});
-  } else {
-    alert('화면을 캡처해서 공유해주세요 📸');
-  }
-}
-
-// ── ADMIN ──
-function showAdminModal(){
-  document.getElementById('admin-pw').value='';
-  document.getElementById('modal-err').classList.remove('show');
-  document.getElementById('admin-modal').classList.add('show');
-  setTimeout(()=>document.getElementById('admin-pw').focus(),100);
-}
-function closeAdminModal(){
-  document.getElementById('admin-modal').classList.remove('show');
-}
-function checkPw(){
-  if(document.getElementById('admin-pw').value===ADMIN_PW){
-    closeAdminModal();
-    renderAdmin();
-    showScreen('admin');
-  } else {
-    document.getElementById('modal-err').classList.add('show');
-    document.getElementById('admin-pw').value='';
-  }
-}
-
-function renderAdmin(){
-  const campaign=records.filter(r=>r.type==='campaign');
-  const reviews=records.filter(r=>r.type==='review');
-  const todayAll=records.filter(r=>r.date===todayStr);
-  document.getElementById('a-campaign').textContent=campaign.length;
-  document.getElementById('a-review').textContent=reviews.length;
-  document.getElementById('a-today').textContent=todayAll.length;
-
-  ['campaign','review'].forEach(type=>{
-    const list=type==='campaign'?campaign:reviews;
-    const el=document.getElementById('a-'+type+'-list');
-    if(list.length===0){el.innerHTML='<div class="empty-msg">아직 없어요.</div>';return;}
-    el.innerHTML=[...list].reverse().map(r=>`
-      <div class="comment-item">
-        <div class="c-name">${r.name}</div>
-        ${r.text?`<div class="c-text">"${r.text}"</div>`:''}
-        ${r.mood?`<div class="c-mood">${r.mood}</div>`:''}
-      </div>`).join('');
-  });
-}
-
-// ── HOME ──
 function goHome(){
-  // 소감 필드 초기화
-  ['c-name','c-text'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.getElementById('c-char').textContent='0';
-  document.getElementById('c-mood-row').querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected'));
-  selectedMoodC=''; selectedMoodR='';
+  clearInterval(autoTimer);
   showScreen('intro');
 }
 
-/* ════════════════════════════════════
-   MAKING (제작과정 카드뉴스)
-   ════════════════════════════════════ */
-const MAKING_STEPS=[
-  {emoji:'🎬',title:'완성된 영화',desc:'먼저 일반 극장용 영화가 완성돼요. 배리어프리 작업은 영화가 다 만들어진 후, 별도로 진행되는 경우가 많아요.'},
-  {emoji:'✍️',title:'화면해설 대본 작성',desc:'화면해설 작가가 영화를 여러 번 보며, 대사 사이 비어있는 순간에 들어갈 설명 대본을 써요. 보이는 것만 객관적으로 묘사하는 게 핵심이에요.'},
-  {emoji:'📝',title:'배리어프리 자막 작업',desc:'자막 전문가가 대사뿐 아니라 음향효과, 음악 분위기까지 텍스트로 옮겨요. "(긴장감 있는 음악)"처럼요.'},
-  {emoji:'🎙️',title:'성우 녹음',desc:'전문 성우가 화면해설 대본을 녹음해요. 정해진 침묵 구간 안에 정확히 들어가야 해서, 세심한 호흡 조절이 필요해요.'},
-  {emoji:'🔎',title:'검수 및 보완',desc:'시각·청각장애인 모니터링단이 직접 확인하며 부족한 부분을 보완해요. 실제 당사자의 피드백이 가장 중요한 단계예요.'},
-  {emoji:'🎉',title:'배리어프리 영화 완성!',desc:'화면해설과 자막이 더해진 영화가 완성돼요. 이제 더 많은 사람이 같은 공간에서 함께 영화를 즐길 수 있어요.'},
-];
-let makingIdx=0;
-
-function renderMaking(){
-  const step=MAKING_STEPS[makingIdx];
-  const card=document.getElementById('making-card');
-  card.innerHTML=`
-    <div class="making-step-num">STEP ${makingIdx+1} / ${MAKING_STEPS.length}</div>
-    <div class="making-emoji">${step.emoji}</div>
-    <div class="making-title">${step.title}</div>
-    <div class="making-desc">${step.desc}</div>
-  `;
-  const prog=document.getElementById('making-progress');
-  prog.innerHTML=MAKING_STEPS.map((_,i)=>`<div class="making-dot${i<=makingIdx?' active':''}"></div>`).join('');
-
-  document.getElementById('making-prev').style.visibility=makingIdx===0?'hidden':'visible';
-  const nextBtn=document.getElementById('making-next');
-  nextBtn.textContent=makingIdx>=MAKING_STEPS.length-1?'처음으로':'다음';
-  nextBtn.onclick=makingIdx>=MAKING_STEPS.length-1?goHome:makingNext;
+/* ══════════ 담당자 ══════════ */
+function showAdminModal(){document.getElementById('admin-modal').classList.add('show');document.getElementById('admin-pw').value='';document.getElementById('modal-err').classList.remove('show');setTimeout(()=>document.getElementById('admin-pw').focus(),100);}
+function closeAdminModal(){document.getElementById('admin-modal').classList.remove('show');}
+function checkPw(){
+  if(document.getElementById('admin-pw').value===ADMIN_PW){
+    closeAdminModal();renderAdmin();showScreen('admin');
+  } else document.getElementById('modal-err').classList.add('show');
 }
-
-function makingNext(){
-  if(makingIdx<MAKING_STEPS.length-1){ makingIdx++; renderMaking(); }
+function renderAdmin(){
+  document.getElementById('st-total').textContent=records.length;
+  if(records.length){
+    const pct=Math.round(records.reduce((s,r)=>s+r.score/r.total,0)/records.length*100);
+    document.getElementById('st-avg').textContent=pct+'%';
+  } else document.getElementById('st-avg').textContent='-';
+  // 구글시트 연동 상태
+  const ss=document.getElementById('sheet-status');
+  if(SHEET_URL){
+    ss.style.display='block';
+    flushPending().then(()=>{
+      document.getElementById('sheet-msg').textContent=
+        pending.length?`전송 대기 ${pending.length}건 (인터넷 연결 시 자동 전송)`: '모든 기록 전송 완료 ✓';
+    });
+    document.getElementById('device-input').value=deviceName;
+  } else ss.style.display='none';
+  const list=document.getElementById('admin-list');
+  if(!records.length){list.innerHTML='<div class="empty-msg">아직 참여 기록이 없어요.</div>';return;}
+  list.innerHTML=[...records].reverse().map((r,i)=>`
+    <div class="comment-item">
+      <div class="c-name">참여 ${records.length-i} · ${r.score}/${r.total} · ${r.date} ${r.time||''}</div>
+    </div>`).join('');
 }
-function makingPrev(){
-  if(makingIdx>0){ makingIdx--; renderMaking(); }
-}
-
-// screen-making이 보일 때마다 처음부터 보여주기
-const _origShowScreen=showScreen;
-showScreen=function(id){
-  _origShowScreen(id);
-  if(id==='making'){ makingIdx=0; renderMaking(); }
-};
-
-// 날짜 초기 표시
-document.getElementById('card-date').textContent=todayStr;
-
-/* ════════════════════════════════════
-   HANDWRITE CANVAS + GALLERY (storage)
-   ════════════════════════════════════ */
-let hwCanvas, hwCtx, hwDrawing=false, hwHasDrawn=false;
-let hwColor='#2A1F14', hwSize=4;
-let hwStrokes=[]; // [{points:[{x,y}], color, size}]
-let hwCurStroke=null;
-
-function initHwCanvas(){
-  hwCanvas=document.getElementById('hw-canvas');
-  hwCtx=hwCanvas.getContext('2d');
-  sizeHwCanvas();
-  window.addEventListener('resize', sizeHwCanvas);
-
-  hwCanvas.addEventListener('pointerdown', hwStart);
-  hwCanvas.addEventListener('pointermove', hwMove);
-  hwCanvas.addEventListener('pointerup', hwEnd);
-  hwCanvas.addEventListener('pointerleave', hwEnd);
-  hwCanvas.addEventListener('pointercancel', hwEnd);
-}
-
-function sizeHwCanvas(){
-  if(!hwCanvas)return;
-  const wrap=document.getElementById('hw-canvas-wrap');
-  const w=wrap.clientWidth;
-  const h=Math.round(w*0.72);
-  const ratio=window.devicePixelRatio||1;
-  hwCanvas.width=w*ratio;
-  hwCanvas.height=h*ratio;
-  hwCanvas.style.height=h+'px';
-  hwCtx.setTransform(ratio,0,0,ratio,0,0);
-  redrawHw();
-}
-
-function getHwPos(e){
-  const rect=hwCanvas.getBoundingClientRect();
-  return {x:e.clientX-rect.left, y:e.clientY-rect.top};
-}
-
-function hwStart(e){
-  e.preventDefault();
-  hwDrawing=true;
-  hwHasDrawn=true;
-  document.getElementById('hw-placeholder').classList.add('hide');
-  const p=getHwPos(e);
-  hwCurStroke={points:[p], color:hwColor, size:hwSize};
-  hwStrokes.push(hwCurStroke);
-}
-
-function hwMove(e){
-  if(!hwDrawing)return;
-  e.preventDefault();
-  const p=getHwPos(e);
-  hwCurStroke.points.push(p);
-  redrawHw();
-}
-
-function hwEnd(e){
-  hwDrawing=false;
-  hwCurStroke=null;
-}
-
-function redrawHw(){
-  if(!hwCtx)return;
-  const w=hwCanvas.width/(window.devicePixelRatio||1);
-  const h=hwCanvas.height/(window.devicePixelRatio||1);
-  hwCtx.clearRect(0,0,w,h);
-  hwStrokes.forEach(s=>{
-    if(s.points.length<1)return;
-    hwCtx.strokeStyle=s.color;
-    hwCtx.lineWidth=s.size;
-    hwCtx.lineCap='round';
-    hwCtx.lineJoin='round';
-    hwCtx.beginPath();
-    hwCtx.moveTo(s.points[0].x, s.points[0].y);
-    if(s.points.length===1){
-      hwCtx.lineTo(s.points[0].x+0.1, s.points[0].y+0.1);
-    } else {
-      for(let i=1;i<s.points.length;i++) hwCtx.lineTo(s.points[i].x, s.points[i].y);
-    }
-    hwCtx.stroke();
+/* 참여 기록 CSV 다운로드 (엑셀에서 바로 열림) */
+function downloadCSV(){
+  if(!records.length){alert('다운로드할 기록이 없어요.');return;}
+  let csv='순번,날짜,시간,정답 수,전체 문항,정답률(%)\n';
+  records.forEach((r,i)=>{
+    csv+=`${i+1},${r.date},${r.time||''},${r.score},${r.total},${Math.round(r.score/r.total*100)}\n`;
   });
+  // BOM을 붙여야 엑셀에서 한글이 깨지지 않음
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  const d=new Date();
+  a.download=`배리어프리캠페인_참여기록_${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
-function pickColor(btn){
-  document.querySelectorAll('.hw-color').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  hwColor=btn.dataset.color;
+async function saveDevice(v){
+  deviceName=v.trim();
+  await store.set('bf-device',deviceName);
 }
 
-function setSize(v){ hwSize=Number(v); }
-
-function undoStroke(){
-  hwStrokes.pop();
-  hwHasDrawn=hwStrokes.length>0;
-  if(!hwHasDrawn) document.getElementById('hw-placeholder').classList.remove('hide');
-  redrawHw();
+async function resetRecords(){
+  if(!confirm('참여 기록을 모두 삭제할까요? 되돌릴 수 없어요.'))return;
+  records=[];
+  await store.set('bf-records','[]');
+  renderAdmin();
 }
-
-function clearCanvas(){
-  hwStrokes=[];
-  hwHasDrawn=false;
-  document.getElementById('hw-placeholder').classList.remove('hide');
-  redrawHw();
-}
-
-function goToHandwrite(from){
-  prevScreen=from;
-  clearCanvas();
-  document.getElementById('hw-name').value='';
-  showScreen('handwrite');
-  setTimeout(()=>{ if(!hwCanvas) initHwCanvas(); else sizeHwCanvas(); },50);
-}
-
-async function submitHandwrite(){
-  if(!hwHasDrawn){
-    alert('아직 작성된 내용이 없어요. 펜으로 자유롭게 남겨주세요!');
-    return;
-  }
-  const name=document.getElementById('hw-name').value.trim()||'익명 참여자';
-  const dataUrl=hwCanvas.toDataURL('image/png');
-  const id='hw_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);
-  const entry={id,name,image:dataUrl,date:todayStr,ts:Date.now()};
-
-  try{
-    await window.storage.set(id, JSON.stringify(entry), true);
-    const idxRes=await window.storage.get('hw-index', true).catch(()=>null);
-    const idx=idxRes? JSON.parse(idxRes.value) : [];
-    idx.unshift(id);
-    await window.storage.set('hw-index', JSON.stringify(idx), true);
-  }catch(err){
-    console.error('저장 실패', err);
-    alert('저장 중 문제가 생겼어요. 다시 시도해주세요.');
-    return;
-  }
-
-  await openGallery('handwrite');
-}
-
-async function openGallery(from){
-  prevScreen=from||'intro';
-  showScreen('gallery');
-  await renderGallery();
-}
-
-async function renderGallery(){
-  const grid=document.getElementById('gal-grid');
-  const empty=document.getElementById('gal-empty');
-  const countEl=document.getElementById('gal-count');
-  grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px 0;color:#9A8878;font-size:13px;">불러오는 중...</div>';
-
-  let entries=[];
-  try{
-    const idxRes=await window.storage.get('hw-index', true).catch(()=>null);
-    const ids=idxRes? JSON.parse(idxRes.value) : [];
-    for(const id of ids){
-      try{
-        const res=await window.storage.get(id, true);
-        if(res) entries.push(JSON.parse(res.value));
-      }catch(e){ /* 개별 항목 누락은 건너뜀 */ }
-    }
-  }catch(err){
-    console.error('갤러리 로드 실패', err);
-  }
-
-  countEl.textContent=`${entries.length}개의 작품`;
-
-  if(entries.length===0){
-    grid.innerHTML='';
-    empty.style.display='block';
-    return;
-  }
-  empty.style.display='none';
-  grid.innerHTML=entries.map(e=>`
-    <div class="gal-card" onclick='openHwView(${JSON.stringify(e.image)}, ${JSON.stringify(e.name)}, ${JSON.stringify(e.date)})'>
-      <img src="${e.image}" alt="${e.name}님의 손글씨">
-      <div class="gal-card-foot">
-        <div class="gal-card-name">${e.name}</div>
-        <div class="gal-card-date">${e.date}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function openHwView(img,name,date){
-  document.getElementById('hw-view-img').src=img;
-  document.getElementById('hw-view-name').textContent=name;
-  document.getElementById('hw-view-date').textContent=date;
-  document.getElementById('hw-view-overlay').classList.add('show');
-}
-function closeHwView(){
-  document.getElementById('hw-view-overlay').classList.remove('show');
-}
-
 </script>
 </body>
 </html>
