@@ -17,17 +17,22 @@ html,body{min-height:100%;background:var(--warm);}
 body{font-family:'Noto Sans KR',sans-serif;color:var(--dark);overscroll-behavior:none;}
 .app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;}
 
-/* 태블릿·데스크톱: 폰 카드 비율로 중앙 고정 */
-@media (min-width:640px){
+/* 가로 태블릿·PC: 폰 카드 비율로 중앙 고정 */
+@media (min-width:640px) and (orientation:landscape){
   body{background:var(--darker);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px 16px;}
   .app{width:100%;max-width:430px;min-height:0;height:min(800px,94vh);border-radius:22px;overflow:hidden;box-shadow:0 0 60px rgba(0,0,0,.4);margin:0;display:flex;flex-direction:column;}
   .screen{min-height:0;flex:1;overflow-y:auto;}
 }
+/* 세로 태블릿: 화면 전체를 채우고 내용을 확대 (JS fitScreen이 zoom 계산) */
+@media (min-width:640px) and (orientation:portrait){
+  body{background:var(--warm);}
+  .app{margin:0 auto;}
+}
 
-.screen{display:none;flex-direction:column;min-height:100vh;animation:fadeUp .35s ease;}
+.screen{display:none;flex-direction:column;min-height:var(--screenH,100vh);animation:fadeUp .35s ease;}
 .screen.active{display:flex;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@media (min-width:640px){.screen{min-height:0;}}
+@media (min-width:640px) and (orientation:landscape){.screen{min-height:0;}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
 
 /* ── FILM STRIP ── */
@@ -325,7 +330,7 @@ const ADMIN_PW='0517';
       (실행 계정: 나 / 액세스 권한: 모든 사용자)
    3) 발급된 웹 앱 URL을 아래 따옴표 안에 붙여넣기
    비워두면('') 태블릿에만 저장됩니다.                      */
-const SHEET_URL='';
+const SHEET_URL='https://script.google.com/macros/s/AKfycbztq4Fn0wnx_3OMRCfSB2BRHDtypjUBtKZWRmo0JGEwNQL1EninFcj1P3MO11Fq4JbNTg/exec';
 
 const todayStr=new Date().toLocaleDateString('ko-KR');
 
@@ -486,6 +491,24 @@ async function flushPending(){
 
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+id).classList.add('active');window.scrollTo(0,0);document.querySelectorAll('.screen.active').forEach(s=>s.scrollTop=0);}
+
+/* 세로 태블릿에서 화면을 꽉 채우도록 콘텐츠 확대 */
+function fitScreen(){
+  const app=document.querySelector('.app');
+  const w=window.innerWidth,h=window.innerHeight;
+  if(w>=640 && h>w){
+    const z=w/480; // 기준 폭(480px)을 화면 폭에 맞게 확대
+    app.style.zoom=z;
+    document.documentElement.style.setProperty('--screenH',(h/z)+'px');
+  } else {
+    app.style.zoom='';
+    document.documentElement.style.setProperty('--screenH','100vh');
+  }
+}
+window.addEventListener('resize',fitScreen);
+window.addEventListener('orientationchange',()=>setTimeout(fitScreen,200));
+document.addEventListener('DOMContentLoaded',fitScreen);
+fitScreen();
 
 /* ══════════ 흐름 ══════════ */
 function startGame(){
